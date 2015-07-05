@@ -32,6 +32,25 @@ namespace RobotUI
         private bool connected = false;
         private bool closing = false;
 
+        enum MODE
+        {
+            POS     =8,
+            VEL     =9,
+            TRQ     =10,
+            HOMING  =6,
+            NONE    =-1
+        }
+
+        enum STATUS
+        {
+            OFF     =1,
+            DISABLED=2,
+            ENABLED =3,
+            RUNNING =4,
+            HOMING  =5,
+            FAULT   =6
+        }
+
         enum COMMON_CMD
         {
             NOCMD               = 0,
@@ -96,7 +115,9 @@ namespace RobotUI
             CLIMB_UP        = 18,
             GO_DOWN         = 19,
             SLOW_AND_STOP   = 20,
-            BACK_TO_HOME    = 21
+            SIT             = 21,
+            POSITION_1      = 22,
+            POSITION_2      = 23
         };
 
         public MainPage()
@@ -380,8 +401,14 @@ namespace RobotUI
                 case "SlowAndStop":
                     msgID = (int)HEX4_CMD.SLOW_AND_STOP;
                     break;
-                case "BackToHome":
-                    msgID = (int)HEX4_CMD.BACK_TO_HOME;
+                case "Sit":
+                    msgID = (int)HEX4_CMD.SIT;
+                    break;
+                case "WaveBody_1":
+                    msgID = (int)HEX4_CMD.POSITION_1;
+                    break;
+                case "WaveBody_2":
+                    msgID = (int)HEX4_CMD.POSITION_2;
                     break;
             }
             SendMsg(msgID);
@@ -529,8 +556,8 @@ namespace RobotUI
                         Motor motor = new Motor 
                         { 
                             Ordinal = i, 
-                            Status = motorPM[0], 
-                            Mode = motorPM[1], 
+                            Status = Enum.GetName(typeof(STATUS),motorPM[0]), 
+                            Mode = Enum.GetName(typeof(MODE),motorPM[1]),
                             Position = motorPM[2], 
                             Velocity = motorPM[3], 
                             Current = motorPM[4] 

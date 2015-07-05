@@ -18,11 +18,11 @@ namespace RobotUI
         /// <summary>
         /// 电机状态
         /// </summary>
-        public int Status { get; set; }
+        public string Status { get; set; }
         /// <summary>
         /// 工作模式
         /// </summary>
-        public int Mode { get; set; }
+        public string Mode { get; set; }
         /// <summary>
         /// 电机转角
         /// </summary>

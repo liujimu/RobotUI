@@ -39,7 +39,7 @@
             <GridView x:Name="MotorGridView" Grid.Column="1" SelectedIndex="-1">
                 <GridView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Width="60" Height="300">
+                        <Grid Width="66" Height="300">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="1*"/>
@@ -48,12 +48,12 @@
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="{Binding Ordinal}" FontSize="24" HorizontalAlignment="Right"/>
-                            <TextBlock Grid.Row="1" Text="{Binding Status}" FontSize="24" HorizontalAlignment="Right"/>
-                            <TextBlock Grid.Row="2" Text="{Binding Mode}" FontSize="24" HorizontalAlignment="Right"/>
-                            <TextBlock Grid.Row="3" Text="{Binding Position}" FontSize="24" HorizontalAlignment="Right"/>
-                            <TextBlock Grid.Row="4" Text="{Binding Velocity}" FontSize="24" HorizontalAlignment="Right"/>
-                            <TextBlock Grid.Row="5" Text="{Binding Current}" FontSize="24" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="0" Text="{Binding Ordinal}" FontSize="12" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="1" Text="{Binding Status}" FontSize="12" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="2" Text="{Binding Mode}" FontSize="12" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="3" Text="{Binding Position}" FontSize="12" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="4" Text="{Binding Velocity}" FontSize="12" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="5" Text="{Binding Current}" FontSize="12" HorizontalAlignment="Right"/>
                         </Grid>
                     </DataTemplate>
                 </GridView.ItemTemplate>
@@ -61,9 +61,9 @@
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Margin="20" FontSize="24" Text="Server IP:" VerticalAlignment="Center"/>
-            <TextBox x:Name="ServerHostname" Margin="10" TextWrapping="Wrap" Text="192.168.1.143" Grid.ColumnSpan="3" Width="500" FontSize="24" VerticalAlignment="Center" />
+            <TextBox x:Name="ServerHostname" Margin="10" TextWrapping="Wrap" Text="192.168.0.102" Grid.ColumnSpan="3" Width="500" FontSize="24" VerticalAlignment="Center" />
             <TextBlock Grid.Column="5" Text=" Port:" Margin="10" FontSize="24" VerticalAlignment="Center"/>
-            <TextBox x:Name="ControlPort" Margin="10" Text="5689" FontSize="24" TextWrapping="Wrap" Width="100" VerticalAlignment="Center"/>
+            <TextBox x:Name="ControlPort" Margin="10" Text="5690" FontSize="24" TextWrapping="Wrap" Width="100" VerticalAlignment="Center"/>
             <Button Content="Connect" Margin="10" FontSize="24" Click="Connect_Click"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
@@ -97,7 +97,7 @@
                 <Button Grid.Row="4" Content="BackToStandstill" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
             </Grid>
-            <Grid Name="HexIIGrid" Grid.Column="1" Margin="20,20,20,0">
+            <Grid Name="HexIIGrid" Grid.Column="1" Margin="20,20,20,0" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
@@ -172,7 +172,7 @@
                 <Button Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="3" Content="FastFW" Margin="5" FontSize="24" Click="HEX3_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Content="FastBW" Margin="5" FontSize="24" Click="HEX3_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Grid>
-            <Grid Name="HexIVGrid" Grid.Column="1" Margin="20,20,20,0" Visibility="Collapsed" >
+            <Grid Name="HexIVGrid" Grid.Column="1" Margin="20,20,20,0" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1.5*"/>
                     <ColumnDefinition Width="1.5*"/>
@@ -197,10 +197,12 @@
                 <Button Grid.Row="4" Grid.Column="1" Content="TurnLeft" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Grid.Row="4" Grid.Column="3" Content="TurnRight" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-                <Button Grid.Row="1" Grid.Column="6" Content="ClimbUp" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Button Grid.Row="2" Grid.Column="6" Content="GoDown" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Button Grid.Row="3" Grid.Column="6" Content="SlowAndStop" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Button Grid.Row="4" Grid.Column="6" Content="BackToHome" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button Grid.Row="2" Grid.Column="4" Content="WaveBody_1" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button Grid.Row="3" Grid.Column="4" Content="WaveBody_2" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button Grid.Row="1" Grid.Column="5" Content="ClimbUp" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button Grid.Row="2" Grid.Column="5" Content="GoDown" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button Grid.Row="3" Grid.Column="5" Content="SlowAndStop" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button Grid.Row="4" Grid.Column="5" Content="Sit" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Grid>
         </Grid>
         <TextBlock x:Name="StatusText" Grid.Row="4" Text="Status" Margin="20,5" TextWrapping="Wrap" FontSize="24" VerticalAlignment="Center"/>
