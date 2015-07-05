@@ -15,6 +15,8 @@
             <RowDefinition Height="5*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
+        
+        <!--显示电机参数-->
         <Grid Margin="20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
@@ -59,11 +61,29 @@
                 </GridView.ItemTemplate>
             </GridView>
         </Grid>
+        
+        <!--Socket连接相关控件-->
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Margin="20" FontSize="24" Text="Server IP:" VerticalAlignment="Center"/>
-            <TextBox x:Name="ServerHostname" Margin="10" TextWrapping="Wrap" Text="192.168.0.102" Grid.ColumnSpan="3" Width="500" FontSize="24" VerticalAlignment="Center" />
+            <TextBox x:Name="ServerHostname" Margin="10" TextWrapping="Wrap" Text="192.168.0.102" Grid.ColumnSpan="3" Width="500" FontSize="24" VerticalAlignment="Center">
+                <TextBox.InputScope>
+                    <InputScope>
+                        <InputScope.Names>
+                            <InputScopeName NameValue="Number"/>
+                        </InputScope.Names>
+                    </InputScope>
+                </TextBox.InputScope>
+            </TextBox>                    
             <TextBlock Grid.Column="5" Text=" Port:" Margin="10" FontSize="24" VerticalAlignment="Center"/>
-            <TextBox x:Name="ControlPort" Margin="10" Text="5690" FontSize="24" TextWrapping="Wrap" Width="100" VerticalAlignment="Center"/>
+            <TextBox x:Name="ControlPort" Margin="10" Text="5690" FontSize="24" TextWrapping="Wrap" Width="100" VerticalAlignment="Center">
+                <TextBox.InputScope>
+                    <InputScope>
+                        <InputScope.Names>
+                            <InputScopeName NameValue="Number"/>
+                        </InputScope.Names>
+                    </InputScope>
+                </TextBox.InputScope>
+            </TextBox>
             <Button Content="Connect" Margin="10" FontSize="24" Click="Connect_Click"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
@@ -95,8 +115,9 @@
                 <Button Grid.Row="2" Content="HomeToStart_1" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Grid.Row="3" Content="HomeToStart_2" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Grid.Row="4" Content="BackToStandstill" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-
             </Grid>
+
+            <!--Hex II的控制按钮-->
             <Grid Name="HexIIGrid" Grid.Column="1" Margin="20,20,20,0" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -123,8 +144,9 @@
                 <Button Grid.Row="3" Grid.Column="2" Content="HiRH" Margin="5" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Grid.Row="4" Grid.Column="1" Content="HiBW" Margin="5" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-                <Button Grid.Row="1" Grid.Column="3" Content="StartHiGait" Margin="10,5" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Button Grid.Row="3" Grid.Column="3" Content="StopHiGait" Margin="10,5" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button Grid.Row="1" Grid.Column="3" Content="StartHiGait" Margin="20,5" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button Grid.Row="2" Grid.Column="3" Content="StopHiGait" Margin="20,5" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button Grid.Row="4" Grid.Column="3" Content="WaveBody" Margin="20,5" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
                 <Button Grid.Row="0" Grid.Column="4" Content="TL" Margin="5" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Grid.Row="0" Grid.Column="6" Content="TR" Margin="5" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -134,8 +156,6 @@
                 <Button Grid.Row="4" Grid.Column="5" Content="BW" Margin="5" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Grid.Row="3" Grid.Column="4" Content="LH" Margin="5" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Grid.Row="3" Grid.Column="6" Content="RH" Margin="5" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Button Grid.Row="0" Grid.Column="0" Content="WB" Margin="5" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Button Grid.Row="0" Grid.Column="2" Content="WL" Margin="5" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
                 <Button Grid.Row="0" Grid.Column="7" Content="Sit" Margin="5,5,5.222,5.444" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Grid.Row="1" Grid.Column="7" Content="StandUp" Margin="5,5.556,5.222,4.889" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -144,6 +164,8 @@
                 <Button Grid.Row="4" Grid.Column="7" Content="UpDownBody" Margin="5,5.222,5.222,4.778" FontSize="24" Click="HEX2_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
             </Grid>
+
+            <!--Hex III的控制按钮-->
             <Grid Name="HexIIIGrid" Grid.Column="1" Margin="20,20,20,0" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="250"/>
@@ -172,7 +194,9 @@
                 <Button Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="3" Content="FastFW" Margin="5" FontSize="24" Click="HEX3_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Content="FastBW" Margin="5" FontSize="24" Click="HEX3_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Grid>
-            <Grid Name="HexIVGrid" Grid.Column="1" Margin="20,20,20,0" >
+
+            <!--Hex IV的控制按钮-->
+            <Grid Name="HexIVGrid" Grid.Column="1" Margin="20,20,20,0" Visibility="Collapsed" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1.5*"/>
                     <ColumnDefinition Width="1.5*"/>
@@ -203,6 +227,110 @@
                 <Button Grid.Row="2" Grid.Column="5" Content="GoDown" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Grid.Row="3" Grid.Column="5" Content="SlowAndStop" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Grid.Row="4" Grid.Column="5" Content="Sit" Margin="5" FontSize="24" Click="HEX4_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            </Grid>
+            
+            <!--发送具体参数控制机器人-->
+            <Grid Name="SendPmGrid" Grid.Column="1" Margin="20,20,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="total count:" Margin="10" FontSize="24" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="walk direction:" Margin="10" FontSize="24" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="up direction:" Margin="10" FontSize="24" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="1" x:Name="total_count" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center">
+                    <TextBox.InputScope>
+                        <InputScope>
+                            <InputScope.Names>
+                                <InputScopeName NameValue="Number"/>
+                            </InputScope.Names>
+                        </InputScope>
+                    </TextBox.InputScope>
+                </TextBox>
+                <ComboBox Grid.Column="1" Grid.Row="2" x:Name="walkDir" Margin="5" FontSize="24" VerticalAlignment="Center">
+                    <x:String>x</x:String>
+                    <x:String>-x</x:String>
+                    <x:String>y</x:String>
+                    <x:String>-y</x:String>
+                    <x:String>z</x:String>
+                    <x:String>-z</x:String>
+                </ComboBox>
+                <ComboBox Grid.Column="1" Grid.Row="3" x:Name="upDir" Margin="5" FontSize="24" VerticalAlignment="Center">
+                    <x:String>x</x:String>
+                    <x:String>-x</x:String>
+                    <x:String>y</x:String>
+                    <x:String>-y</x:String>
+                    <x:String>z</x:String>
+                    <x:String>-z</x:String>
+                </ComboBox>
+
+                <TextBlock Grid.Column="2" Grid.Row="1" Text="step d:" Margin="10" FontSize="24" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Grid.Row="2" Text="step h:" Margin="10" FontSize="24" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Grid.Row="3" Text="step alpha:" Margin="10" FontSize="24" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Grid.Row="4" Text="step beta:" Margin="10" FontSize="24" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Grid.Row="5" Text="step number:" Margin="10" FontSize="24" VerticalAlignment="Center"/>
+
+                <TextBox Grid.Column="3" Grid.Row="1" x:Name="step_d" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center">
+                    <TextBox.InputScope>
+                        <InputScope>
+                            <InputScope.Names>
+                                <InputScopeName NameValue="Number"/>
+                            </InputScope.Names>
+                        </InputScope>
+                    </TextBox.InputScope>
+                </TextBox>
+                <TextBox Grid.Column="3" Grid.Row="2" x:Name="step_h" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center">
+                    <TextBox.InputScope>
+                        <InputScope>
+                            <InputScope.Names>
+                                <InputScopeName NameValue="Number"/>
+                            </InputScope.Names>
+                        </InputScope>
+                    </TextBox.InputScope>
+                </TextBox>
+                <TextBox Grid.Column="3" Grid.Row="3" x:Name="step_alpha" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center">
+                    <TextBox.InputScope>
+                        <InputScope>
+                            <InputScope.Names>
+                                <InputScopeName NameValue="Number"/>
+                            </InputScope.Names>
+                        </InputScope>
+                    </TextBox.InputScope>
+                </TextBox>
+                <TextBox Grid.Column="3" Grid.Row="4" x:Name="step_beta" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center">
+                    <TextBox.InputScope>
+                        <InputScope>
+                            <InputScope.Names>
+                                <InputScopeName NameValue="Number"/>
+                            </InputScope.Names>
+                        </InputScope>
+                    </TextBox.InputScope>
+                </TextBox>
+                <TextBox Grid.Column="3" Grid.Row="5" x:Name="step_num" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center">
+                    <TextBox.InputScope>
+                        <InputScope>
+                            <InputScope.Names>
+                                <InputScopeName NameValue="Number"/>
+                            </InputScope.Names>
+                        </InputScope>
+                    </TextBox.InputScope>
+                </TextBox>
+
+
+                <Button Grid.Column="5" Grid.Row="5" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Grid>
         </Grid>
         <TextBlock x:Name="StatusText" Grid.Row="4" Text="Status" Margin="20,5" TextWrapping="Wrap" FontSize="24" VerticalAlignment="Center"/>
