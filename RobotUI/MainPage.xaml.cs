@@ -215,12 +215,14 @@ namespace RobotUI
                     break;
                 case "GoHome_1":
                     msgID = (int)COMMON_CMD.GOHOME_1;
+                    GoHome_2.IsEnabled = true; //GoHome_1按下之后GoHome_2才允许按下
                     break;
                 case "GoHome_2":
                     msgID = (int)COMMON_CMD.GOHOME_2;
                     break;
                 case "HomeToStart_1":
                     msgID = (int)COMMON_CMD.HOME2START_1;
+                    HomeToStart_2.IsEnabled = true; //HomeToStart_1按下之后HomeToStart_2才允许按下
                     break;
                 case "HomeToStart_2":
                     msgID = (int)COMMON_CMD.HOME2START_2;
