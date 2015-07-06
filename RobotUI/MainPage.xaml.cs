@@ -183,9 +183,13 @@ namespace RobotUI
             }
         }
 
+        /// <summary>
+        /// 断开网络连接
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
-
             closing = true;
             clientSocket.Dispose();
             clientSocket = null;
@@ -193,6 +197,11 @@ namespace RobotUI
             StatusText.Text = "Socket is disconnected.";
         }
 
+        /// <summary>
+        /// 公用按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void COMMON_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
@@ -234,6 +243,11 @@ namespace RobotUI
             SendMsg(msgID);
         }
 
+        /// <summary>
+        /// Hex II 专用按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HEX2_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
@@ -318,6 +332,11 @@ namespace RobotUI
             SendMsg(msgID);
         }
 
+        /// <summary>
+        /// Hex III 专用按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HEX3_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
@@ -354,6 +373,11 @@ namespace RobotUI
             SendMsg(msgID);
         }
 
+        /// <summary>
+        /// Hex IV专用按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HEX4_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
@@ -586,6 +610,11 @@ namespace RobotUI
             }
         }
 
+        /// <summary>
+        /// 切换控制界面
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UIMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string UIMode = e.AddedItems[0].ToString();
@@ -607,81 +636,6 @@ namespace RobotUI
                     HexIVGrid.Visibility = Visibility.Visible;
                     break;
             }            
-        }
-
-        /// <summary>
-        /// 发送用户输入参数
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void SendPm_Click(object sender, RoutedEventArgs e)
-        {
-            uint tc = uint.Parse(total_count.Text);
-            string wdir = walkDir.SelectedItem.ToString();
-            string udir = upDir.SelectedItem.ToString();
-            double sd = double.Parse(step_d.Text);
-            double sh = double.Parse(step_h.Text);
-            double salpha = double.Parse(step_alpha.Text);
-            double sbeta = double.Parse(step_beta.Text);
-            uint snum = uint.Parse(step_num.Text);
-
-            byte[] b1 = System.BitConverter.GetBytes(tc);
-            byte[] b2 = System.Text.UnicodeEncoding.UTF8.GetBytes(wdir);
-            byte[] b3 = System.Text.UnicodeEncoding.UTF8.GetBytes(udir);
-            byte[] b4 = System.BitConverter.GetBytes(sd);
-            byte[] b5 = System.BitConverter.GetBytes(sh);
-            byte[] b6 = System.BitConverter.GetBytes(salpha);
-            byte[] b7 = System.BitConverter.GetBytes(sbeta);
-            byte[] b8 = System.BitConverter.GetBytes(snum);
-
-            byte[] Pm = new byte[56]; //C#会自动将byte数组中的每个元素初始化为0
-
-            Array.Copy(b1, 0, Pm, 0, b1.Length);
-            Array.Copy(b2, 0, Pm, 4, b2.Length);
-            Array.Copy(b3, 0, Pm, 12, b3.Length);
-            Array.Copy(b4, 0, Pm, 20, b4.Length);
-            Array.Copy(b5, 0, Pm, 28, b5.Length);
-            Array.Copy(b6, 0, Pm, 36, b6.Length);
-            Array.Copy(b7, 0, Pm, 44, b7.Length);
-            Array.Copy(b8, 0, Pm, 52, b8.Length);
-
-            byte[] sendPm = ConvSendMsg(Pm, (uint)Pm.Length, 0);
-            //显示发送数据内容
-            StatusText.Text = tc.ToString() + wdir + udir + sd.ToString() + sh.ToString() + salpha.ToString() + sbeta.ToString() + snum.ToString();
-
-            try
-            {
-                DataWriter writer = new DataWriter(clientSocket.OutputStream);
-                //把数据写入到发送流
-                writer.WriteBytes(sendPm);
-                //异步发送
-                await writer.StoreAsync();
-
-                // detach the stream and close it
-                writer.DetachStream();
-                writer.Dispose();
-
-            }
-            catch (Exception exception)
-            {
-                // If this is an unknown status, 
-                // it means that the error is fatal and retry will likely fail.
-                if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
-                {
-                    throw;
-                }
-
-                StatusText.Text = "Send data or receive failed with error: " + exception.Message;
-                // Could retry the connection, but for this simple example
-                // just close the socket.
-
-                closing = true;
-                clientSocket.Dispose();
-                clientSocket = null;
-                connected = false;
-
-            }
-
         }
 
     }
