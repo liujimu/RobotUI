@@ -88,9 +88,10 @@
             <Button Content="Connect" Margin="10" FontSize="24" Click="Connect_Click"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button Content="Enable" Margin="20,5,20,5.333" FontSize="24" VerticalAlignment="Stretch" Click="COMMON_Click" Width="210"/>
-            <Button Content="Running" Margin="20,5" FontSize="24" Background="#FF10A010" VerticalAlignment="Stretch" Click="COMMON_Click" Width="200"/>
-            <Button Content="Disable" Margin="20,5" FontSize="24" Background="#FFAA2020" VerticalAlignment="Stretch" Click="COMMON_Click" Width="200"/>
+            <Button x:Name="Enable" Content="Enable" Margin="20,5,20,5.333" FontSize="24" VerticalAlignment="Stretch" Click="COMMON_Click" Width="210"/>
+            <Button x:Name="Running" Content="Running" Margin="20,5" FontSize="24" Background="#FF10A010" VerticalAlignment="Stretch" Click="COMMON_Click" Width="200"/>
+            <Button x:Name="PreDisable" Content="PreDisable" Margin="20,5" FontSize="24" VerticalAlignment="Stretch" Click="COMMON_Click" Width="200"/>
+            <Button x:Name="Disable" Content="Disable" Margin="20,5" FontSize="24" Background="#FFAA2020" VerticalAlignment="Stretch" Click="COMMON_Click" Width="200" IsEnabled="False"/>
 
             <ComboBox x:Name="UIMode" Margin="10" PlaceholderText="Select UI Mode" Width="200" VerticalAlignment="Center" FontSize="24" SelectionChanged="UIMode_SelectionChanged" Height="50">
                 <x:String>Hex II</x:String>
@@ -112,9 +113,9 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <Button x:Name="GoHome_1" Grid.Row="0" Content="GoHome_1" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Button x:Name="GoHome_2" Grid.Row="1" Content="GoHome_2" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False"/>
+                <Button x:Name="GoHome_2" Grid.Row="1" Content="GoHome_2" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button x:Name="HomeToStart_1" Grid.Row="2" Content="HomeToStart_1" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Button x:Name="HomeToStart_2" Grid.Row="3" Content="HomeToStart_2" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False"/>
+                <Button x:Name="HomeToStart_2" Grid.Row="3" Content="HomeToStart_2" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Grid.Row="4" Content="BackToStandstill" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Grid>
 

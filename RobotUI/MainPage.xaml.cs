@@ -219,22 +219,27 @@ namespace RobotUI
                 case "Running":
                     msgID = (int)COMMON_CMD.RUNNING;
                     break;
+                case "PreDisable":
+                    Disable.IsEnabled =!Disable.IsEnabled;
+                    break;
                 case "Disable":
                     msgID = (int)COMMON_CMD.DISABLE;
                     break;
                 case "GoHome_1":
                     msgID = (int)COMMON_CMD.GOHOME_1;
-                    GoHome_2.IsEnabled = true; //GoHome_1按下之后GoHome_2才允许按下
+                    GoHome_1.IsEnabled = false; //GoHome_1只能按一次
                     break;
                 case "GoHome_2":
                     msgID = (int)COMMON_CMD.GOHOME_2;
+                    GoHome_2.IsEnabled = false; //GoHome_2只能按一次
                     break;
                 case "HomeToStart_1":
                     msgID = (int)COMMON_CMD.HOME2START_1;
-                    HomeToStart_2.IsEnabled = true; //HomeToStart_1按下之后HomeToStart_2才允许按下
+                    HomeToStart_1.IsEnabled = false; //HomeToStart_1只能按一次
                     break;
                 case "HomeToStart_2":
                     msgID = (int)COMMON_CMD.HOME2START_2;
+                    HomeToStart_2.IsEnabled = false; //HomeToStart_2只能按一次
                     break;
                 case "BackToStandstill":
                     msgID = (int)COMMON_CMD.BACK2STANDSTILL;
