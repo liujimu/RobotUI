@@ -1,0 +1,243 @@
+﻿<Page
+    x:Class="RobotPM.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:RobotPM"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="340"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <!--显示电机参数-->
+        <Grid Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="12*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="No." FontSize="24"/>
+                <TextBlock Grid.Row="1" Text="Status" FontSize="24"/>
+                <TextBlock Grid.Row="2" Text="Mode" FontSize="24"/>
+                <TextBlock Grid.Row="3" Text="Position" FontSize="24"/>
+                <TextBlock Grid.Row="4" Text="Velocity" FontSize="24"/>
+                <TextBlock Grid.Row="5" Text="Current" FontSize="24"/>
+            </Grid>
+            <GridView x:Name="MotorGridView" Grid.Column="1" SelectedIndex="-1">
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="66" Height="300">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="{Binding Ordinal}" FontSize="14" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="1" Text="{Binding Status}" FontSize="14" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="2" Text="{Binding Mode}" FontSize="14" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="3" Text="{Binding Position}" FontSize="14" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="4" Text="{Binding Velocity}" FontSize="14" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="5" Text="{Binding Current}" FontSize="14" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </Grid>
+
+        <!--Socket连接相关控件-->
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <TextBlock Margin="20" FontSize="24" Text="Server IP:" VerticalAlignment="Center"/>
+            <TextBox x:Name="ServerHostname" Margin="10" TextWrapping="Wrap" Text="192.168.0.102" Grid.ColumnSpan="3" Width="500" FontSize="24" VerticalAlignment="Center">
+                <TextBox.InputScope>
+                    <InputScope>
+                        <InputScope.Names>
+                            <InputScopeName NameValue="Number"/>
+                        </InputScope.Names>
+                    </InputScope>
+                </TextBox.InputScope>
+            </TextBox>
+            <TextBlock Grid.Column="5" Text=" Port:" Margin="10" FontSize="24" VerticalAlignment="Center"/>
+            <TextBox x:Name="ControlPort" Margin="10" Text="5690" FontSize="24" TextWrapping="Wrap" Width="100" VerticalAlignment="Center">
+                <TextBox.InputScope>
+                    <InputScope>
+                        <InputScope.Names>
+                            <InputScopeName NameValue="Number"/>
+                        </InputScope.Names>
+                    </InputScope>
+                </TextBox.InputScope>
+            </TextBox>
+            <Button Content="Connect" Margin="10" FontSize="24" Click="Connect_Click"/>
+            <Button Content="Disconnect" Margin="10" FontSize="24" Click="Disconnect_Click"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Content="Enable" Margin="20,5,20,5.333" FontSize="24" VerticalAlignment="Stretch" Click="COMMON_Click" Width="210"/>
+        </StackPanel>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="GoHome_1" Grid.Row="0" Content="GoHome_1" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button x:Name="GoHome_2" Grid.Row="1" Content="GoHome_2" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button x:Name="HomeToStart_1" Grid.Row="2" Content="HomeToStart_1" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button x:Name="HomeToStart_2" Grid.Row="3" Content="HomeToStart_2" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button Grid.Row="4" Content="Disable" Margin="20,5" FontSize="24" Background="#FFAA2020" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            </Grid>
+
+            <!--发送具体参数控制机器人-->
+            <Grid Name="SendPmGrid" Grid.Column="1" Margin="20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1.2*"/>
+                    <ColumnDefinition Width="1.2*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="total count" Margin="10" FontSize="20" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="walk direction" Margin="10" FontSize="20" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Grid.Row="0" Text="up direction" Margin="10" FontSize="20" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="3" Grid.Row="0" Text="step d" Margin="10" FontSize="20" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="4" Grid.Row="0" Text="step h" Margin="10" FontSize="20" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="5" Grid.Row="0" Text="step alpha" Margin="10" FontSize="20" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="6" Grid.Row="0" Text="step beta" Margin="10" FontSize="20" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="7" Grid.Row="0" Text="step number" Margin="10" FontSize="20" VerticalAlignment="Center"/>
+
+                <TextBox x:Name="total_count1" Grid.Column="0" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <ComboBox x:Name="walkDir1" Grid.Column="1" Grid.Row="1" Margin="5" FontSize="24" VerticalAlignment="Center">
+                    <x:String>x</x:String>
+                    <x:String>-x</x:String>
+                    <x:String>y</x:String>
+                    <x:String>-y</x:String>
+                    <x:String>z</x:String>
+                    <x:String>-z</x:String>
+                </ComboBox>
+                <ComboBox x:Name="upDir1" Grid.Column="2" Grid.Row="1" Margin="5" FontSize="24" VerticalAlignment="Center">
+                    <x:String>x</x:String>
+                    <x:String>-x</x:String>
+                    <x:String>y</x:String>
+                    <x:String>-y</x:String>
+                    <x:String>z</x:String>
+                    <x:String>-z</x:String>
+                </ComboBox>
+                <TextBox x:Name="step_d1" Grid.Column="3" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_h1" Grid.Column="4" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_alpha1" Grid.Column="5" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_beta1" Grid.Column="6" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_num1" Grid.Column="7" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <Button Grid.Column="8" Grid.Row="1" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                <TextBox x:Name="total_count2" Grid.Column="0" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <ComboBox x:Name="walkDir2" Grid.Column="1" Grid.Row="2" Margin="5" FontSize="24" VerticalAlignment="Center">
+                    <x:String>x</x:String>
+                    <x:String>-x</x:String>
+                    <x:String>y</x:String>
+                    <x:String>-y</x:String>
+                    <x:String>z</x:String>
+                    <x:String>-z</x:String>
+                </ComboBox>
+                <ComboBox x:Name="upDir2" Grid.Column="2" Grid.Row="2" Margin="5" FontSize="24" VerticalAlignment="Center">
+                    <x:String>x</x:String>
+                    <x:String>-x</x:String>
+                    <x:String>y</x:String>
+                    <x:String>-y</x:String>
+                    <x:String>z</x:String>
+                    <x:String>-z</x:String>
+                </ComboBox>
+                <TextBox x:Name="step_d2" Grid.Column="3" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_h2" Grid.Column="4" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_alpha2" Grid.Column="5" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_beta2" Grid.Column="6" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_num2" Grid.Column="7" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <Button Grid.Column="8" Grid.Row="2" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                <TextBox x:Name="total_count3" Grid.Column="0" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <ComboBox x:Name="walkDir3" Grid.Column="1" Grid.Row="3" Margin="5" FontSize="24" VerticalAlignment="Center">
+                    <x:String>x</x:String>
+                    <x:String>-x</x:String>
+                    <x:String>y</x:String>
+                    <x:String>-y</x:String>
+                    <x:String>z</x:String>
+                    <x:String>-z</x:String>
+                </ComboBox>
+                <ComboBox x:Name="upDir3" Grid.Column="2" Grid.Row="3" Margin="5" FontSize="24" VerticalAlignment="Center">
+                    <x:String>x</x:String>
+                    <x:String>-x</x:String>
+                    <x:String>y</x:String>
+                    <x:String>-y</x:String>
+                    <x:String>z</x:String>
+                    <x:String>-z</x:String>
+                </ComboBox>
+                <TextBox x:Name="step_d3" Grid.Column="3" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_h3" Grid.Column="4" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_alpha3" Grid.Column="5" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_beta3" Grid.Column="6" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_num3" Grid.Column="7" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <Button Grid.Column="8" Grid.Row="3" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                <TextBox x:Name="total_count4" Grid.Column="0" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <ComboBox x:Name="walkDir4" Grid.Column="1" Grid.Row="4" Margin="5" FontSize="24" VerticalAlignment="Center">
+                    <x:String>x</x:String>
+                    <x:String>-x</x:String>
+                    <x:String>y</x:String>
+                    <x:String>-y</x:String>
+                    <x:String>z</x:String>
+                    <x:String>-z</x:String>
+                </ComboBox>
+                <ComboBox x:Name="upDir4" Grid.Column="2" Grid.Row="4" Margin="5" FontSize="24" VerticalAlignment="Center">
+                    <x:String>x</x:String>
+                    <x:String>-x</x:String>
+                    <x:String>y</x:String>
+                    <x:String>-y</x:String>
+                    <x:String>z</x:String>
+                    <x:String>-z</x:String>
+                </ComboBox>
+                <TextBox x:Name="step_d4" Grid.Column="3" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_h4" Grid.Column="4" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_alpha4" Grid.Column="5" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_beta4" Grid.Column="6" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="step_num4" Grid.Column="7" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <Button Grid.Column="8" Grid.Row="4" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+            </Grid>
+        </Grid>
+        <TextBlock x:Name="StatusText" Grid.Row="4" Text="Status" Margin="20,5" TextWrapping="Wrap" FontSize="24" VerticalAlignment="Center"/>
+    </Grid>
+</Page>
