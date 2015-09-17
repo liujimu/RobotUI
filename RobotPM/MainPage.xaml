@@ -124,7 +124,7 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="command" Margin="10" FontSize="20" VerticalAlignment="Center" SelectionChanged="TextBlock_SelectionChanged"/>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="command" Margin="5" FontSize="24" VerticalAlignment="Center"/>
 
                 <TextBox x:Name="command1" Grid.Column="0" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
                 <Button Grid.Column="1" Grid.Row="1" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

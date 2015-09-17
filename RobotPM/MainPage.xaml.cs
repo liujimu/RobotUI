@@ -178,37 +178,8 @@ namespace RobotPM
             Button btn = sender as Button;
             int i=Grid.GetRow(btn);
             TextBox commandTB = (TextBox)SendPmGrid.FindName("command" + i.ToString());
-
-            int begin = (int)COMMON_CMD.PARAMETER; //定义数据头
-            string tc = commandTB.Text;
-
-
-            byte[] b0 = System.BitConverter.GetBytes(begin);
-            byte[] b1 = System.BitConverter.GetBytes(tc);
-            byte[] b2 = System.Text.UnicodeEncoding.UTF8.GetBytes(wdir);
-            byte[] b3 = System.Text.UnicodeEncoding.UTF8.GetBytes(udir);
-            byte[] b4 = System.BitConverter.GetBytes(sd);
-            byte[] b5 = System.BitConverter.GetBytes(sh);
-            byte[] b6 = System.BitConverter.GetBytes(salpha);
-            byte[] b7 = System.BitConverter.GetBytes(sbeta);
-            byte[] b8 = System.BitConverter.GetBytes(snum);
-
-            byte[] Pm = new byte[60]; //C#会自动将byte数组中的每个元素初始化为0
-
-            Array.Copy(b0, 0, Pm, 0, b0.Length);
-            Array.Copy(b1, 0, Pm, 4, b1.Length);
-            Array.Copy(b2, 0, Pm, 8, b2.Length);
-            Array.Copy(b3, 0, Pm, 16, b3.Length);
-            Array.Copy(b4, 0, Pm, 24, b4.Length);
-            Array.Copy(b5, 0, Pm, 32, b5.Length);
-            Array.Copy(b6, 0, Pm, 40, b6.Length);
-            Array.Copy(b7, 0, Pm, 48, b7.Length);
-            Array.Copy(b8, 0, Pm, 56, b8.Length);
-
+            byte[] Pm = System.Text.UnicodeEncoding.UTF8.GetBytes(commandTB.Text); 
             SendMsg(Pm, 0);
-
-            //显示发送数据内容
-            StatusText.Text = tc.ToString() + wdir + udir + sd.ToString() + sh.ToString() + salpha.ToString() + sbeta.ToString() + snum.ToString();
         }
 
         /// <summary>
