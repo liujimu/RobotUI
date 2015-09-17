@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-  <Identity Name="dcafaf83-d8d4-4440-86d9-3d56b9fef1f6" Publisher="CN=Dreamer" Version="1.0.0.0" />
+  <Identity Name="dcafaf83-d8d4-4440-86d9-3d56b9fef1f6" Publisher="CN=Dreamer" Version="1.0.0.5" />
   <Properties>
     <DisplayName>RobotUI</DisplayName>
     <PublisherDisplayName>Dreamer</PublisherDisplayName>

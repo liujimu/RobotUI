@@ -113,14 +113,7 @@
             <!--发送具体参数控制机器人-->
             <Grid Name="SendPmGrid" Grid.Column="1" Margin="20,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1.5*"/>
-                    <ColumnDefinition Width="1.5*"/>
-                    <ColumnDefinition Width="1.5*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1.2*"/>
-                    <ColumnDefinition Width="1.2*"/>
-                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="5*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -131,110 +124,19 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="total count" Margin="10" FontSize="20" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="1" Grid.Row="0" Text="walk direction" Margin="10" FontSize="20" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="2" Grid.Row="0" Text="up direction" Margin="10" FontSize="20" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="3" Grid.Row="0" Text="step d" Margin="10" FontSize="20" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="4" Grid.Row="0" Text="step h" Margin="10" FontSize="20" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="5" Grid.Row="0" Text="step alpha" Margin="10" FontSize="20" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="6" Grid.Row="0" Text="step beta" Margin="10" FontSize="20" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="7" Grid.Row="0" Text="step number" Margin="10" FontSize="20" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="command" Margin="10" FontSize="20" VerticalAlignment="Center" SelectionChanged="TextBlock_SelectionChanged"/>
 
-                <TextBox x:Name="total_count1" Grid.Column="0" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <ComboBox x:Name="walkDir1" Grid.Column="1" Grid.Row="1" Margin="5" FontSize="24" VerticalAlignment="Center">
-                    <x:String>x</x:String>
-                    <x:String>-x</x:String>
-                    <x:String>y</x:String>
-                    <x:String>-y</x:String>
-                    <x:String>z</x:String>
-                    <x:String>-z</x:String>
-                </ComboBox>
-                <ComboBox x:Name="upDir1" Grid.Column="2" Grid.Row="1" Margin="5" FontSize="24" VerticalAlignment="Center">
-                    <x:String>x</x:String>
-                    <x:String>-x</x:String>
-                    <x:String>y</x:String>
-                    <x:String>-y</x:String>
-                    <x:String>z</x:String>
-                    <x:String>-z</x:String>
-                </ComboBox>
-                <TextBox x:Name="step_d1" Grid.Column="3" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_h1" Grid.Column="4" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_alpha1" Grid.Column="5" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_beta1" Grid.Column="6" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_num1" Grid.Column="7" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <Button Grid.Column="8" Grid.Row="1" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <TextBox x:Name="command1" Grid.Column="0" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <Button Grid.Column="1" Grid.Row="1" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-                <TextBox x:Name="total_count2" Grid.Column="0" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <ComboBox x:Name="walkDir2" Grid.Column="1" Grid.Row="2" Margin="5" FontSize="24" VerticalAlignment="Center">
-                    <x:String>x</x:String>
-                    <x:String>-x</x:String>
-                    <x:String>y</x:String>
-                    <x:String>-y</x:String>
-                    <x:String>z</x:String>
-                    <x:String>-z</x:String>
-                </ComboBox>
-                <ComboBox x:Name="upDir2" Grid.Column="2" Grid.Row="2" Margin="5" FontSize="24" VerticalAlignment="Center">
-                    <x:String>x</x:String>
-                    <x:String>-x</x:String>
-                    <x:String>y</x:String>
-                    <x:String>-y</x:String>
-                    <x:String>z</x:String>
-                    <x:String>-z</x:String>
-                </ComboBox>
-                <TextBox x:Name="step_d2" Grid.Column="3" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_h2" Grid.Column="4" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_alpha2" Grid.Column="5" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_beta2" Grid.Column="6" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_num2" Grid.Column="7" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <Button Grid.Column="8" Grid.Row="2" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <TextBox x:Name="command2" Grid.Column="0" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <Button Grid.Column="1" Grid.Row="2" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-                <TextBox x:Name="total_count3" Grid.Column="0" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <ComboBox x:Name="walkDir3" Grid.Column="1" Grid.Row="3" Margin="5" FontSize="24" VerticalAlignment="Center">
-                    <x:String>x</x:String>
-                    <x:String>-x</x:String>
-                    <x:String>y</x:String>
-                    <x:String>-y</x:String>
-                    <x:String>z</x:String>
-                    <x:String>-z</x:String>
-                </ComboBox>
-                <ComboBox x:Name="upDir3" Grid.Column="2" Grid.Row="3" Margin="5" FontSize="24" VerticalAlignment="Center">
-                    <x:String>x</x:String>
-                    <x:String>-x</x:String>
-                    <x:String>y</x:String>
-                    <x:String>-y</x:String>
-                    <x:String>z</x:String>
-                    <x:String>-z</x:String>
-                </ComboBox>
-                <TextBox x:Name="step_d3" Grid.Column="3" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_h3" Grid.Column="4" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_alpha3" Grid.Column="5" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_beta3" Grid.Column="6" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_num3" Grid.Column="7" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <Button Grid.Column="8" Grid.Row="3" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <TextBox x:Name="command3" Grid.Column="0" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <Button Grid.Column="1" Grid.Row="3" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-                <TextBox x:Name="total_count4" Grid.Column="0" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <ComboBox x:Name="walkDir4" Grid.Column="1" Grid.Row="4" Margin="5" FontSize="24" VerticalAlignment="Center">
-                    <x:String>x</x:String>
-                    <x:String>-x</x:String>
-                    <x:String>y</x:String>
-                    <x:String>-y</x:String>
-                    <x:String>z</x:String>
-                    <x:String>-z</x:String>
-                </ComboBox>
-                <ComboBox x:Name="upDir4" Grid.Column="2" Grid.Row="4" Margin="5" FontSize="24" VerticalAlignment="Center">
-                    <x:String>x</x:String>
-                    <x:String>-x</x:String>
-                    <x:String>y</x:String>
-                    <x:String>-y</x:String>
-                    <x:String>z</x:String>
-                    <x:String>-z</x:String>
-                </ComboBox>
-                <TextBox x:Name="step_d4" Grid.Column="3" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_h4" Grid.Column="4" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_alpha4" Grid.Column="5" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_beta4" Grid.Column="6" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <TextBox x:Name="step_num4" Grid.Column="7" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
-                <Button Grid.Column="8" Grid.Row="4" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <TextBox x:Name="command4" Grid.Column="0" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <Button Grid.Column="1" Grid.Row="4" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
             </Grid>
         </Grid>

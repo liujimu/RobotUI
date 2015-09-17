@@ -177,24 +177,11 @@ namespace RobotPM
         {
             Button btn = sender as Button;
             int i=Grid.GetRow(btn);
-            TextBox total_count = (TextBox)SendPmGrid.FindName("total_count" + i.ToString());
-            ComboBox walkDir = (ComboBox)SendPmGrid.FindName("walkDir" + i.ToString());
-            ComboBox upDir = (ComboBox)SendPmGrid.FindName("upDir" + i.ToString());
-            TextBox step_d = (TextBox)SendPmGrid.FindName("step_d" + i.ToString());
-            TextBox step_h = (TextBox)SendPmGrid.FindName("step_h" + i.ToString());
-            TextBox step_alpha = (TextBox)SendPmGrid.FindName("step_alpha" + i.ToString());
-            TextBox step_beta = (TextBox)SendPmGrid.FindName("step_beta" + i.ToString());
-            TextBox step_num = (TextBox)SendPmGrid.FindName("step_num" + i.ToString());
+            TextBox commandTB = (TextBox)SendPmGrid.FindName("command" + i.ToString());
 
             int begin = (int)COMMON_CMD.PARAMETER; //定义数据头
-            uint tc = uint.Parse(total_count.Text);
-            string wdir = walkDir.SelectedItem.ToString();
-            string udir = upDir.SelectedItem.ToString();
-            double sd = double.Parse(step_d.Text);
-            double sh = double.Parse(step_h.Text);
-            double salpha = double.Parse(step_alpha.Text);
-            double sbeta = double.Parse(step_beta.Text);
-            uint snum = uint.Parse(step_num.Text);
+            string tc = commandTB.Text;
+
 
             byte[] b0 = System.BitConverter.GetBytes(begin);
             byte[] b1 = System.BitConverter.GetBytes(tc);

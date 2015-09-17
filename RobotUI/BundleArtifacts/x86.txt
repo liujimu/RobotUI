@@ -1,0 +1,3 @@
+MainPackage=E:\Documents\Visual Studio 2013\Projects\RobotUI\RobotUI\bin\x86\Release\RobotUI_1.0.0.5_Bundle\RobotUI_1.0.0.5_x86.appx
+SymbolPackage=E:\Documents\Visual Studio 2013\Projects\RobotUI\RobotUI\AppPackages\RobotUI_1.0.0.5_Test\RobotUI_1.0.0.5_x86.appxsym
+ResourcePack=E:\Documents\Visual Studio 2013\Projects\RobotUI\RobotUI\bin\x86\Release\RobotUI_1.0.0.5_Bundle\RobotUI_1.0.0.5_scale-180.appx
