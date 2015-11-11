@@ -250,6 +250,8 @@ namespace RobotVIII_UI
         {
             byte[] Pm = System.Text.UnicodeEncoding.UTF8.GetBytes(command.Text);
             SendMsg(Pm);
+            wkNum.Value = 1;
+
         }
 
         /// <summary>
@@ -396,10 +398,10 @@ namespace RobotVIII_UI
                     wkCmd = "wk -d=" + wkDistance + " -a=-1.57" + wkParam;
                     break;
                 case "wkClockwiseBtn":
-                    wkCmd = "wk -d=0 -b=0.2618" + wkParam;
+                    wkCmd = "wk -d=0 -b=-0.2618" + wkParam;
                     break;
                 case "wkCounterclockwiseBtn":
-                    wkCmd = "wk -d=0 -b=-0.2618" + wkParam;
+                    wkCmd = "wk -d=0 -b=0.2618" + wkParam;
                     break;
                 default:
                     wkCmd = "wk -d=0";

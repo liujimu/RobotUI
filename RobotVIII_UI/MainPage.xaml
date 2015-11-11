@@ -17,7 +17,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Hexapod Robot Control Client" Style="{StaticResource HeaderTextBlockStyle}" Margin="10"/>
+            <TextBlock Text="Hexapod Robot Control Client" Style="{StaticResource HeaderTextBlockStyle}" Margin="10,20"/>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <TextBlock Margin="10" FontSize="24" Text="Server IP:" VerticalAlignment="Center"/>
                 <TextBox x:Name="ServerIP" Margin="10" TextWrapping="Wrap" Text="192.168.0.103" Width="220" FontSize="24" VerticalAlignment="Center">
