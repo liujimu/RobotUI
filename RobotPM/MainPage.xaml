@@ -9,58 +9,14 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="340"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="5*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
 
         <!--显示电机参数-->
-        <Grid Margin="20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="12*"/>
-            </Grid.ColumnDefinitions>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="No." FontSize="24"/>
-                <TextBlock Grid.Row="1" Text="Status" FontSize="24"/>
-                <TextBlock Grid.Row="2" Text="Mode" FontSize="24"/>
-                <TextBlock Grid.Row="3" Text="Position" FontSize="24"/>
-                <TextBlock Grid.Row="4" Text="Velocity" FontSize="24"/>
-                <TextBlock Grid.Row="5" Text="Current" FontSize="24"/>
-            </Grid>
-            <GridView x:Name="MotorGridView" Grid.Column="1" SelectedIndex="-1">
-                <GridView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Width="66" Height="300">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="1*"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="{Binding Ordinal}" FontSize="14" HorizontalAlignment="Right"/>
-                            <TextBlock Grid.Row="1" Text="{Binding Status}" FontSize="14" HorizontalAlignment="Right"/>
-                            <TextBlock Grid.Row="2" Text="{Binding Mode}" FontSize="14" HorizontalAlignment="Right"/>
-                            <TextBlock Grid.Row="3" Text="{Binding Position}" FontSize="14" HorizontalAlignment="Right"/>
-                            <TextBlock Grid.Row="4" Text="{Binding Velocity}" FontSize="14" HorizontalAlignment="Right"/>
-                            <TextBlock Grid.Row="5" Text="{Binding Current}" FontSize="14" HorizontalAlignment="Right"/>
-                        </Grid>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
-        </Grid>
 
         <!--Socket连接相关控件-->
         <StackPanel Grid.Row="1" Orientation="Horizontal">
@@ -85,10 +41,12 @@
                 </TextBox.InputScope>
             </TextBox>
             <Button Content="Connect" Margin="10" FontSize="24" Click="Connect_Click"/>
-            <Button Content="Disconnect" Margin="10" FontSize="24" Click="Disconnect_Click"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button Content="Enable" Margin="20,5,20,5.333" FontSize="24" VerticalAlignment="Stretch" Click="COMMON_Click" Width="210"/>
+            <Button x:Name="Enable" Content="Enable" Margin="20,5,20,5.333" FontSize="24" VerticalAlignment="Stretch" Click="COMMON_Click" Width="210"/>
+            <Button x:Name="Running" Content="Running" Margin="20,5" FontSize="24" Background="#FF10A010" VerticalAlignment="Stretch" Click="COMMON_Click" Width="200"/>
+            <Button x:Name="PreDisable" Content="PreDisable" Margin="20,5" FontSize="24" VerticalAlignment="Stretch" Click="COMMON_Click" Width="200"/>
+            <Button x:Name="Disable" Content="Disable" Margin="20,5" FontSize="24" Background="#FFAA2020" VerticalAlignment="Stretch" Click="COMMON_Click" Width="200" IsEnabled="False"/>
         </StackPanel>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
@@ -107,9 +65,8 @@
                 <Button x:Name="GoHome_2" Grid.Row="1" Content="GoHome_2" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button x:Name="HomeToStart_1" Grid.Row="2" Content="HomeToStart_1" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button x:Name="HomeToStart_2" Grid.Row="3" Content="HomeToStart_2" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <Button Grid.Row="4" Content="Disable" Margin="20,5" FontSize="24" Background="#FFAA2020" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button Grid.Row="4" Content="BackToStandstill" Margin="20,5" FontSize="24" Click="COMMON_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Grid>
-
             <!--发送具体参数控制机器人-->
             <Grid Name="SendPmGrid" Grid.Column="1" Margin="20,0">
                 <Grid.ColumnDefinitions>
@@ -124,21 +81,22 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="command" Margin="5" FontSize="24" VerticalAlignment="Center"/>
+                <TextBlock x:Name="RecvMsg" Grid.Column="0" Grid.Row="0" Text="command" Margin="5" FontSize="24" VerticalAlignment="Center"/>
 
-                <TextBox x:Name="command1" Grid.Column="0" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="command1" Grid.Column="0" Grid.Row="1" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center"/>
                 <Button Grid.Column="1" Grid.Row="1" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-                <TextBox x:Name="command2" Grid.Column="0" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="command2" Grid.Column="0" Grid.Row="2" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center"/>
                 <Button Grid.Column="1" Grid.Row="2" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-                <TextBox x:Name="command3" Grid.Column="0" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="command3" Grid.Column="0" Grid.Row="3" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center"/>
                 <Button Grid.Column="1" Grid.Row="3" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-                <TextBox x:Name="command4" Grid.Column="0" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center" InputScope="Number"/>
+                <TextBox x:Name="command4" Grid.Column="0" Grid.Row="4" Margin="5" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Center"/>
                 <Button Grid.Column="1" Grid.Row="4" Content="Send" Margin="5" FontSize="24" Click="SendPm_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
             </Grid>
+
         </Grid>
         <TextBlock x:Name="StatusText" Grid.Row="4" Text="Status" Margin="20,5" TextWrapping="Wrap" FontSize="24" VerticalAlignment="Center"/>
     </Grid>

@@ -32,36 +32,6 @@ namespace RobotPM
         private bool connected = false;
         private bool closing = false;
 
-        enum MODE
-        {
-            POS = 8,
-            VEL = 9,
-            TRQ = 10,
-            HOMING = 6,
-            NONE = -1
-        }
-
-        enum STATUS
-        {
-            OFF = 1,
-            DISABLED = 2,
-            ENABLED = 3,
-            RUNNING = 4,
-            HOMING = 5,
-            FAULT = 6
-        }
-
-        enum COMMON_CMD
-        {
-            ENABLE,
-            DISABLE,
-            GOHOME_1,
-            GOHOME_2,
-            HOME2START_1,
-            HOME2START_2,
-            PARAMETER
-        }
-
         public MainPage()
         {
             this.InitializeComponent();
@@ -117,9 +87,13 @@ namespace RobotPM
             }
         }
 
+        /// <summary>
+        /// 断开网络连接
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
-
             closing = true;
             clientSocket.Dispose();
             clientSocket = null;
@@ -127,67 +101,27 @@ namespace RobotPM
             StatusText.Text = "Socket is disconnected.";
         }
 
+        /// <summary>
+        /// 公用按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void COMMON_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            int msg = 0;
             if (btn == null)
             {
                 return;
             }
             string content = btn.Content.ToString();
-            switch (content)
-            {
-                case "Enable":
-                    msg = (int)COMMON_CMD.ENABLE;
-                    break;
-                case "Disable":
-                    msg = (int)COMMON_CMD.DISABLE;
-                    break;
-                case "GoHome_1":
-                    msg = (int)COMMON_CMD.GOHOME_1;
-                    GoHome_1.IsEnabled = false; //GoHome_1只能按一次
-                    break;
-                case "GoHome_2":
-                    msg = (int)COMMON_CMD.GOHOME_2;
-                    GoHome_2.IsEnabled = false; //GoHome_2只能按一次
-                    break;
-                case "HomeToStart_1":
-                    msg = (int)COMMON_CMD.HOME2START_1;
-                    HomeToStart_1.IsEnabled = false; //HomeToStart_1只能按一次
-                    break;
-                case "HomeToStart_2":
-                    msg = (int)COMMON_CMD.HOME2START_2;
-                    HomeToStart_2.IsEnabled = false; //HomeToStart_2只能按一次
-                    break;
-            }
-            byte[] bMsg = System.BitConverter.GetBytes(msg);
-            SendMsg(bMsg,0);
 
-            //显示发送的MsgID
-            StatusText.Text = "Msg " + msg.ToString() + " is sent";
-        }
-
-        /// <summary>
-        /// 发送用户输入参数
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SendPm_Click(object sender, RoutedEventArgs e)
-        {
-            Button btn = sender as Button;
-            int i=Grid.GetRow(btn);
-            TextBox commandTB = (TextBox)SendPmGrid.FindName("command" + i.ToString());
-            byte[] Pm = System.Text.UnicodeEncoding.UTF8.GetBytes(commandTB.Text); 
-            SendMsg(Pm, 0);
         }
 
         /// <summary>
         /// 发送数据
         /// </summary>
-        /// <param name="sData">待发送的数据正文</param>
-        /// <param name="msgID">msgID</param>
-        private async void SendMsg(byte[] sData, int msgID)
+        /// <param name="sData"></param>
+        private async void SendMsg(byte[] sData)
         {
             if (!connected)
             {
@@ -199,16 +133,15 @@ namespace RobotPM
             {
                 //StatusText.Text = "Trying to send data ...";
 
-                byte[] sendData = ConvSendMsg(sData, (uint)sData.Length, msgID);
+                byte[] sendData = ConvSendMsg(sData, 0);
                 DataWriter writer = new DataWriter(clientSocket.OutputStream);
                 //把数据写入到发送流
                 writer.WriteBytes(sendData);
                 //异步发送
                 await writer.StoreAsync();
 
-                //显示发送的MsgID
-                //int sendID = BitConverter.ToInt32(sendData, 4);
-                //StatusText.Text = "MsgID " + sendID.ToString() + " was sent";
+                //显示发送的消息内容
+                StatusText.Text = System.Text.UnicodeEncoding.UTF8.GetString(sendData, 40, sData.Length) + " was sent";
 
                 // detach the stream and close it
                 writer.DetachStream();
@@ -223,16 +156,13 @@ namespace RobotPM
                 {
                     throw;
                 }
-
                 StatusText.Text = "Send data or receive failed with error: " + exception.Message;
                 // Could retry the connection, but for this simple example
                 // just close the socket.
-
                 closing = true;
                 clientSocket.Dispose();
                 clientSocket = null;
                 connected = false;
-
             }
         }
 
@@ -243,29 +173,30 @@ namespace RobotPM
         /// <param name="dataLength">数据长度</param>
         /// <param name="msgID">msgID</param>
         /// <returns>返回封装好的数据包</returns>
-        private byte[] ConvSendMsg(byte[] sendData, UInt32 dataLength, int msgID)
+        private byte[] ConvSendMsg(byte[] sendData, int msgID, Int64 msgType = 1)
         {
             //数据包格式为 数据大小 + msgID + type + 保留字段 + 保留字段 + 用户自定义数据 + 数据内容
 
             // 0-3  字节，  unsigned int 代表数据大小
-            byte[] bLength = System.BitConverter.GetBytes(dataLength);
+            int dataSize = sendData == null ? 0 : sendData.Length + 1;
+            byte[] bLength = System.BitConverter.GetBytes(dataSize);
 
             // 4-7  字节，  int          代表msgID
             byte[] bID = System.BitConverter.GetBytes(msgID);
 
             // 8-15 字节，  long long    代表type
+            byte[] bType = System.BitConverter.GetBytes(msgType);
+
             // 16-23字节，  long long    目前保留，准备用于时间戳
             // 24-31字节，  long long    目前保留，准备用于时间戳
             // 32-39字节，  long long    用户可以自定义的8字节数据
-            byte[] bReserved = new byte[32];
+            byte[] bReserved = new byte[24];
 
-            //数据包总长度
-            int size = sendData == null ? 40 : sendData.Length + 40;
-
-            //组装数据包
-            byte[] b = new byte[size];
+            //组装数据包`
+            byte[] b = new byte[dataSize + 40];
             Array.Copy(bLength, 0, b, 0, 4);
             Array.Copy(bID, 0, b, 4, 4);
+            Array.Copy(bType, 0, b, 8, 8);
             if (sendData != null)
             {
                 Array.Copy(sendData, 0, b, 40, sendData.Length);
@@ -306,33 +237,18 @@ namespace RobotPM
                     await reader.LoadAsync(32);
                     reader.ReadBytes(tempByteArr);
 
-                    //定义电机参数列表
-                    List<Motor> m_Motors = new List<Motor>();
-
-                    //读取数据内容
-                    for (int i = 0; i < dataLength / (5 * sizeof(int)); i++)
+                    if (dataLength > 0)
                     {
-                        //每次读取同一个电机的5个参数
-                        int[] motorPM = new int[5];
-                        for (int j = 0; j < 5; j++)
-                        {
-                            tempByteArr = new byte[4];
-                            await reader.LoadAsync(sizeof(uint));
-                            reader.ReadBytes(tempByteArr);
-                            motorPM[j] = System.BitConverter.ToInt32(tempByteArr, 0);
-                        }
-                        Motor motor = new Motor
-                        {
-                            Ordinal = i,
-                            Status = Enum.GetName(typeof(STATUS), motorPM[0]),
-                            Mode = Enum.GetName(typeof(MODE), motorPM[1]),
-                            Position = motorPM[2],
-                            Velocity = motorPM[3],
-                            Current = motorPM[4]
-                        };
-                        m_Motors.Add(motor);
+                        //读取数据正文
+                        tempByteArr = new byte[dataLength];
+                        await reader.LoadAsync(dataLength);
+                        reader.ReadBytes(tempByteArr);
+                        RecvMsg.Text = System.Text.UnicodeEncoding.UTF8.GetString(tempByteArr, 0, int.Parse(dataLength.ToString()));
                     }
-                    this.MotorGridView.ItemsSource = m_Motors;
+                    else
+                    {
+                        RecvMsg.Text = "";
+                    }
                 }
                 catch (Exception exception)
                 {
@@ -355,5 +271,18 @@ namespace RobotPM
             }
         }
 
+        /// <summary>
+        /// 发送用户输入参数
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SendPm_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            int i = Grid.GetRow(btn);
+            TextBox commandTB = (TextBox)SendPmGrid.FindName("command" + i.ToString());
+            byte[] Pm = System.Text.UnicodeEncoding.UTF8.GetBytes(commandTB.Text);
+            SendMsg(Pm);
+        }
     }
 }
