@@ -2,7 +2,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:RobotVIII_UI" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
-    <SolidColorBrush x:Key="BtnPressedColorBrush" Color="#FF30966D"/>
+    <SolidColorBrush x:Key="BtnPressedColorBrush" Color="#FF944095"/>
+    <SolidColorBrush x:Key="BtnNormalColorBrush" Color="#FF007ACC"/>
+    <SolidColorBrush x:Key="CustomGreenColorBrush" Color="#FF00A300"/>
 
     <Style x:Key="DirectionButtonStyle" TargetType="Button">
         <Setter Property="Template">
@@ -15,7 +17,7 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill)" Storyboard.TargetName="path">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BtnPressedColorBrush}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource CustomGreenColorBrush}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -23,15 +25,13 @@
                                 <VisualState x:Name="PointerOver"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Path x:Name="path" Data="M60,0 C80.6589,0 100.584,3.14012 119.325,8.96913 L120,9.18822 L120,139.5 L60,199.5 L0,139.5 L0,9.1882 L0.674805,8.96913 C19.4156,3.14012 39.3411,0 60,0 z" Fill="#FF4472C4" Stretch="Fill" UseLayoutRounding="False"/>
+                        <Path x:Name="path" Data="M60,0 C80.6589,0 100.584,3.14012 119.325,8.96913 L120,9.18822 L120,139.5 L60,199.5 L0,139.5 L0,9.1882 L0.674805,8.96913 C19.4156,3.14012 39.3411,0 60,0 z" Fill="{TemplateBinding Background}" Stretch="Fill" UseLayoutRounding="False" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="4"/>
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    <SolidColorBrush x:Key="PressedColorBrush" Color="#FFD24726"/>
-    <SolidColorBrush x:Key="BtnNormalColorBrush" Color="#FF4472C4"/>
     <Style x:Key="VerticalButtonStyle" TargetType="Button">
         <Setter Property="Template">
             <Setter.Value>
@@ -43,7 +43,7 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill)" Storyboard.TargetName="path">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BtnPressedColorBrush}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource CustomGreenColorBrush}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -51,7 +51,7 @@
                                 <VisualState x:Name="PointerOver"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Path x:Name="path" Data="M80.5,0.5 L160.5,80.5 L120,80.5 L120,220 L41,220 L41,80.5 L0.5,80.5 z" Fill="{TemplateBinding Background}" RenderTransformOrigin="0.5,1.0905" Stretch="Fill" Stroke="Black" StrokeThickness="0"/>
+                        <Path x:Name="path" Data="M80.5,0.5 L160.5,80.5 L120,80.5 L120,220 L41,220 L41,80.5 L0.5,80.5 z" Fill="{TemplateBinding Background}" RenderTransformOrigin="0.5,1.0905" Stretch="Fill" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="4"/>
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
                 </ControlTemplate>
@@ -69,7 +69,34 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill)" Storyboard.TargetName="path">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BtnPressedColorBrush}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource CustomGreenColorBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="path" d:IsOptimized="True"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled"/>
+                                <VisualState x:Name="PointerOver"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Path x:Name="path" Data="M109.782,0.5 L139.064,109.782 L104.241,89.6768 L102.979,92.8548 C98.0047,106 95.282,120.253 95.282,135.141 C95.282,168.14 108.657,198.015 130.283,219.64 L130.64,219.99 L74.0761,276.554 L73.7142,276.209 C37.6118,240.107 15.282,190.232 15.282,135.141 C15.282,105.014 21.9602,76.4459 33.9171,50.8375 L34.5854,49.4612 L0.5,29.782 z" RenderTransformOrigin="1.5395,0.488" Stretch="Fill" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="4" Fill="{TemplateBinding Background}"/>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="UpDownButtonStyle" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill)" Storyboard.TargetName="path">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource CustomGreenColorBrush}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -77,11 +104,12 @@
                                 <VisualState x:Name="PointerOver"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Path x:Name="path" Data="M109.782,0.5 L139.064,109.782 L104.241,89.6768 L102.979,92.8548 C98.0047,106 95.282,120.253 95.282,135.141 C95.282,168.14 108.657,198.015 130.283,219.64 L130.64,219.99 L74.0761,276.554 L73.7142,276.209 C37.6118,240.107 15.282,190.232 15.282,135.141 C15.282,105.014 21.9602,76.4459 33.9171,50.8375 L34.5854,49.4612 L0.5,29.782 z" RenderTransformOrigin="1.5395,0.488" Stretch="Fill" Stroke="Black" StrokeThickness="0" Fill="{TemplateBinding Background}"/>
+                        <Path x:Name="path" Data="M100,0 L200,173 L0,173 z" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="4"/>
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+    <SolidColorBrush x:Key="CustomRedColorBrush" Color="#FF940000"/>
 </ResourceDictionary>
