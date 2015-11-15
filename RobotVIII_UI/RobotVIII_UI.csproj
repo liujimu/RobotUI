@@ -103,7 +103,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Folder Include="Design\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -122,6 +121,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="Design\projectGuides.guides" />
     <None Include="RobotVIII_UI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

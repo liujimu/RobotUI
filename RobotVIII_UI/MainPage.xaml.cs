@@ -86,6 +86,19 @@ namespace RobotVIII_UI
                 clientSocket = null;
             }
         }
+        /// <summary>
+        /// 断开网络连接
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Disconnect_Click(object sender, RoutedEventArgs e)
+        {
+            closing = true;
+            clientSocket.Dispose();
+            clientSocket = null;
+            connected = false;
+            StatusText.Text = "Socket is disconnected.";
+        }
 
         /// <summary>
         /// 接收数据
@@ -300,6 +313,7 @@ namespace RobotVIII_UI
             }
             byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(basicCmd);
             SendMsg(sendBytes);
+            wkNum.Value = 1;
         }
 
         /// <summary>
@@ -328,21 +342,29 @@ namespace RobotVIII_UI
         private void mvBodyUpdateCmd(Button btn, String gesture)
         {
             string distance;
+            string angle;
+            string direction;
+            string rollDir = "";
+            string mvType;
+
+            string btnName = btn.Name.ToString();
+
             switch (gesture)
             {
                 case "Tapped":
-                    distance = "0.005";
+                    distance = moveTarget.SelectedIndex == 0 ? "0.01" : "0.1";
+                    angle = "1";
                     break;
                 case "RightTapped":
-                    distance = "0.05";
+                    distance = moveTarget.SelectedIndex == 0 ? "0.05" : "0.2";
+                    angle = "5";
                     break;
                 default:
                     distance = "";
+                    angle = "";
                     break;
             }
 
-            string direction;
-            string btnName = btn.Name.ToString();
             switch (btnName)
             {
                 case "bodyForwardBtn":
@@ -363,12 +385,53 @@ namespace RobotVIII_UI
                 case "bodyDownBtn":
                     direction = " -v=-";
                     break;
+                case "bodyMR1Btn":
+                    direction = " -v=-";
+                    rollDir = " -r=";
+                    break;
+                case "bodyMR2Btn":
+                    direction = " -v=-";
+                    rollDir = " -r=-";
+                    break;
+                case "bodyMR3Btn":
+                    direction = " -v=";
+                    rollDir = " -r=-";
+                    break;
+                case "bodyMR4Btn":
+                    direction = " -v=";
+                    rollDir = " -r=";
+                    break;
                 default:
                     direction = "";
                     break;
             }
-            string mvBodyCmd = "move2 -c=bd" + direction + distance;
-            command.Text = mvBodyCmd;
+
+            switch(moveTarget.SelectedIndex)
+            {
+                case 0:
+                    mvType = "mr";
+                    break;
+                case 1:
+                    mvType = "move2 -c=lf";
+                    break;
+                case 2:
+                    mvType = "move2 -c=rf";
+                    break;
+                default:
+                    mvType = "mr";
+                    break;
+            }
+
+            string mvParam;
+            if (btnName.Contains("bodyMR"))
+            {
+                mvParam = direction + distance + rollDir + angle;
+            }
+            else
+            {
+                mvParam = direction + distance;
+            }
+            command.Text = mvType + mvParam;
         }
 
         /*将控件行为解析为wk命令*/
@@ -403,12 +466,20 @@ namespace RobotVIII_UI
                 case "wkCounterclockwiseBtn":
                     wkCmd = "wk -d=0 -b=0.2618" + wkParam;
                     break;
+                case "Pull1":
+                    wkCmd = "wk -d=0.26105 -a=3.0107";
+                    break;
+                case "Pull2":
+                    wkCmd = "wk -d=0.26105 -a=2.7489";
+                    break;
+                case "Pull3":
+                    wkCmd = "wk -d=0.26105 -a=2.4871";
+                    break;
                 default:
                     wkCmd = "wk -d=0";
                     break;
             }
             command.Text = wkCmd;
         }
-
     }
 }
