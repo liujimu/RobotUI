@@ -481,5 +481,6 @@ namespace RobotVIII_UI
             }
             command.Text = wkCmd;
         }
+
     }
 }
