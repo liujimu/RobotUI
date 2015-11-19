@@ -307,6 +307,12 @@ namespace RobotVIII_UI
                 case "ResetOrigin":
                     basicCmd = "ro";
                     break;
+                case "StartCMB":
+                    basicCmd = "cmb";
+                    break;
+                case "StopCMB":
+                    basicCmd = "cmj -c=0";
+                    break;
                 default:
                     basicCmd = "";
                     break;
@@ -328,6 +334,39 @@ namespace RobotVIII_UI
         }
 
         /*将控件行为解析为move2命令*/
+
+        private void mvBody_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            string direction = "";
+            Button btn = sender as Button;
+            if(e.HoldingState==Windows.UI.Input.HoldingState.Started)
+            {
+                switch (btn.Name.ToString())
+                {
+                    case "bodyForwardBtn":
+                        direction = " -w=-1";
+                        break;
+                    case "bodyBackwardBtn":
+                        direction = " -w=1";
+                        break;
+                    case "bodyLeftBtn":
+                        direction = " -u=-1";
+                        break;
+                    case "bodyRightBtn":
+                        direction = " -u=1";
+                        break;
+                    case "bodyUpBtn":
+                        direction = " -v=1";
+                        break;
+                    case "bodyDownBtn":
+                        direction = " -v=-1";
+                        break;
+                }
+            }
+            string cmd = "cmj" + direction;
+            byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
+            SendMsg(sendBytes);
+        }
 
         private void mvBody_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -480,6 +519,91 @@ namespace RobotVIII_UI
                     break;
             }
             command.Text = wkCmd;
+        }
+
+        private void moveTarget_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox combo = sender as ComboBox;
+
+            //Move Body
+            if (combo.SelectedIndex == 0)
+            {
+                //Set bodyMR button visibility
+                bodyMR1Btn.Visibility = Visibility.Visible;
+                bodyMR2Btn.Visibility = Visibility.Visible;
+                bodyMR3Btn.Visibility = Visibility.Visible;
+                bodyMR4Btn.Visibility = Visibility.Visible;
+
+                //Set Button EventHandler
+                bodyMR1Btn.Tapped += mvBody_Tapped;
+                bodyMR1Btn.RightTapped += mvBody_RightTapped;
+                bodyMR2Btn.Tapped += mvBody_Tapped;
+                bodyMR2Btn.RightTapped += mvBody_RightTapped;
+                bodyMR3Btn.Tapped += mvBody_Tapped;
+                bodyMR3Btn.RightTapped += mvBody_RightTapped;
+                bodyMR4Btn.Tapped += mvBody_Tapped;
+                bodyMR4Btn.RightTapped += mvBody_RightTapped;
+
+                bodyForwardBtn.Holding += mvBody_Holding;
+                bodyBackwardBtn.Holding += mvBody_Holding;
+                bodyLeftBtn.Holding += mvBody_Holding;
+                bodyRightBtn.Holding += mvBody_Holding;
+                bodyUpBtn.Holding += mvBody_Holding;
+                bodyDownBtn.Holding += mvBody_Holding;
+
+                bodyForwardBtn.Tapped -= mvBody_Tapped;
+                bodyForwardBtn.RightTapped -= mvBody_RightTapped;
+                bodyBackwardBtn.Tapped -= mvBody_Tapped;
+                bodyBackwardBtn.RightTapped -= mvBody_RightTapped;
+                bodyLeftBtn.Tapped -= mvBody_Tapped;
+                bodyLeftBtn.RightTapped -= mvBody_RightTapped;
+                bodyRightBtn.Tapped -= mvBody_Tapped;
+                bodyRightBtn.RightTapped -= mvBody_RightTapped;
+                bodyUpBtn.Tapped -= mvBody_Tapped;
+                bodyUpBtn.RightTapped -= mvBody_RightTapped;
+                bodyDownBtn.Tapped -= mvBody_Tapped;
+                bodyDownBtn.RightTapped -= mvBody_RightTapped;
+            }
+            //Move Single Leg
+            else
+            {
+                //Set bodyMR button visibility
+                bodyMR1Btn.Visibility = Visibility.Collapsed;
+                bodyMR2Btn.Visibility = Visibility.Collapsed;
+                bodyMR3Btn.Visibility = Visibility.Collapsed;
+                bodyMR4Btn.Visibility = Visibility.Collapsed;
+
+                //Set Button EventHandler
+                bodyMR1Btn.Tapped -= mvBody_Tapped;
+                bodyMR1Btn.RightTapped -= mvBody_RightTapped;
+                bodyMR2Btn.Tapped -= mvBody_Tapped;
+                bodyMR2Btn.RightTapped -= mvBody_RightTapped;
+                bodyMR3Btn.Tapped -= mvBody_Tapped;
+                bodyMR3Btn.RightTapped -= mvBody_RightTapped;
+                bodyMR4Btn.Tapped -= mvBody_Tapped;
+                bodyMR4Btn.RightTapped -= mvBody_RightTapped;
+
+                bodyForwardBtn.Holding -= mvBody_Holding;
+                bodyBackwardBtn.Holding -= mvBody_Holding;
+                bodyLeftBtn.Holding -= mvBody_Holding;
+                bodyRightBtn.Holding -= mvBody_Holding;
+                bodyUpBtn.Holding -= mvBody_Holding;
+                bodyDownBtn.Holding -= mvBody_Holding;
+
+                bodyForwardBtn.Tapped += mvBody_Tapped;
+                bodyForwardBtn.RightTapped += mvBody_RightTapped;
+                bodyBackwardBtn.Tapped += mvBody_Tapped;
+                bodyBackwardBtn.RightTapped += mvBody_RightTapped;
+                bodyLeftBtn.Tapped += mvBody_Tapped;
+                bodyLeftBtn.RightTapped += mvBody_RightTapped;
+                bodyRightBtn.Tapped += mvBody_Tapped;
+                bodyRightBtn.RightTapped += mvBody_RightTapped;
+                bodyUpBtn.Tapped += mvBody_Tapped;
+                bodyUpBtn.RightTapped += mvBody_RightTapped;
+                bodyDownBtn.Tapped += mvBody_Tapped;
+                bodyDownBtn.RightTapped += mvBody_RightTapped;
+            }
+
         }
 
     }

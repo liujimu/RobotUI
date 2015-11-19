@@ -20,7 +20,7 @@
             <TextBlock Text="Hexapod Robot Control Client" Style="{StaticResource HeaderTextBlockStyle}" Margin="10,20"/>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <TextBlock Margin="10" FontSize="24" Text="Server IP:" VerticalAlignment="Center"/>
-                <TextBox x:Name="ServerIP" Margin="10" TextWrapping="Wrap" Text="192.168.0.103" Width="220" FontSize="24" VerticalAlignment="Center">
+                <TextBox x:Name="ServerIP" Margin="10" TextWrapping="Wrap" Text="192.168.1.100" Width="220" FontSize="24" VerticalAlignment="Center">
                     <TextBox.InputScope>
                         <InputScope>
                             <InputScope.Names>
@@ -39,8 +39,8 @@
                         </InputScope>
                     </TextBox.InputScope>
                 </TextBox>
-                <Button Content="Connect" Margin="10" FontSize="24" Click="Connect_Click"/>
-                <Button Content="Disconnect" Margin="300,10,10,10" FontSize="24" Click="Disconnect_Click" Background="{StaticResource CustomRedColorBrush}"/>
+                <Button Content="Connect" Margin="10" FontSize="24" Click="Connect_Click" Background="{StaticResource CustomGreenColorBrush}"/>
+                <Button Content="Disconnect" Margin="10" FontSize="24" Click="Disconnect_Click" Background="{StaticResource CustomRedColorBrush}"/>
             </StackPanel>
             <Grid Grid.Row="2" Margin="0,30">
                 <Grid.RowDefinitions>
@@ -64,6 +64,8 @@
                 <Button x:Name="Recover2" Grid.Column="2" Grid.Row="1" Content="Recover2" Margin="10,5" FontSize="24" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button x:Name="FastWalk" Grid.Column="3" Content="FastWalk" Margin="10,5" FontSize="24" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button x:Name="ResetOrigin" Grid.Column="3" Grid.Row="1" Content="ResetOrigin" Margin="10,5" FontSize="24" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button x:Name="StartCMB" Grid.Column="4" Content="StartCMB" Margin="10,5" FontSize="24" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource CustomGreenColorBrush}"/>
+                <Button x:Name="StopCMB" Grid.Column="4" Grid.Row="1" Content="StopCMB" Margin="10,5" FontSize="24" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource CustomRedColorBrush}"/>
                 <Button x:Name="Pull1" Grid.Column="1" Grid.Row="2" Content="Pull1" Margin="10,5" FontSize="24" Tapped="wk_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button x:Name="Pull2" Grid.Column="2" Grid.Row="2" Content="Pull2" Margin="10,5" FontSize="24" Tapped="wk_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button x:Name="Pull3" Grid.Column="3" Grid.Row="2" Content="Pull3" Margin="10,5" FontSize="24" Tapped="wk_Tapped" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -89,7 +91,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock Text="Move" Margin="10" Style="{StaticResource SubheaderTextBlockStyle}"/>
-                    <ComboBox x:Name="moveTarget" Margin="10" Width="120" VerticalAlignment="Center" FontSize="24" Height="50" SelectedIndex="0">
+                    <ComboBox x:Name="moveTarget" Margin="10" Width="120" VerticalAlignment="Center" FontSize="24" Height="50" SelectionChanged="moveTarget_SelectionChanged">
                         <x:String>body</x:String>
                         <x:String>lf</x:String>
                         <x:String>rf</x:String>
@@ -100,52 +102,52 @@
                 <TextBlock Grid.Column="3" Text="Walk" Style="{StaticResource SubheaderTextBlockStyle}" HorizontalAlignment="Center"/>
 
                 <Canvas Grid.Row="1">
-                    <Button x:Name="bodyForwardBtn" HorizontalAlignment="Stretch" Canvas.Left="120" VerticalAlignment="Stretch" Style="{StaticResource DirectionButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}" Canvas.Top="-9" Tapped="mvBody_Tapped" RightTapped="mvBody_RightTapped">
+                    <Button x:Name="bodyForwardBtn" HorizontalAlignment="Stretch" Canvas.Left="120" VerticalAlignment="Stretch" Style="{StaticResource DirectionButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}" Canvas.Top="-9">
                         <Button.RenderTransform>
                             <CompositeTransform ScaleX="0.75" ScaleY="0.75"/>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="bodyRightBtn" Content="" HorizontalAlignment="Stretch" Canvas.Left="204.459" Canvas.Top="75.832" VerticalAlignment="Stretch" Style="{StaticResource DirectionButtonStyle}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Background="{StaticResource BtnNormalColorBrush}" Tapped="mvBody_Tapped" RightTapped="mvBody_RightTapped">
+                    <Button x:Name="bodyRightBtn" Content="" HorizontalAlignment="Stretch" Canvas.Left="204.459" Canvas.Top="75.832" VerticalAlignment="Stretch" Style="{StaticResource DirectionButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}">
                         <Button.RenderTransform>
                             <CompositeTransform Rotation="90" ScaleX="0.75" ScaleY="0.75"/>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="bodyBackwardBtn" Content="" HorizontalAlignment="Stretch" Canvas.Left="120" Canvas.Top="161" VerticalAlignment="Stretch" Style="{StaticResource DirectionButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}" Tapped="mvBody_Tapped" RightTapped="mvBody_RightTapped">
+                    <Button x:Name="bodyBackwardBtn" Content="" HorizontalAlignment="Stretch" Canvas.Left="120" Canvas.Top="161" VerticalAlignment="Stretch" Style="{StaticResource DirectionButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}">
                         <Button.RenderTransform>
                             <CompositeTransform Rotation="180" ScaleX="0.75" ScaleY="0.75"/>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="bodyLeftBtn" Content="" HorizontalAlignment="Stretch" Canvas.Left="34.969" Canvas.Top="75.832" VerticalAlignment="Stretch" Style="{StaticResource DirectionButtonStyle}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Background="{StaticResource BtnNormalColorBrush}" Tapped="mvBody_Tapped" RightTapped="mvBody_RightTapped">
+                    <Button x:Name="bodyLeftBtn" Content="" HorizontalAlignment="Stretch" Canvas.Left="34.969" Canvas.Top="75.832" VerticalAlignment="Stretch" Style="{StaticResource DirectionButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}">
                         <Button.RenderTransform>
                             <CompositeTransform Rotation="270" ScaleX="0.75" ScaleY="0.75"/>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="bodyUpBtn" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="400" Style="{StaticResource UpDownButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}" Tapped="mvBody_Tapped" RightTapped="mvBody_RightTapped" Canvas.Top="26">
+                    <Button x:Name="bodyUpBtn" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="400" Canvas.Top="26" Style="{StaticResource UpDownButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}">
                         <Button.RenderTransform>
                             <CompositeTransform ScaleX="0.6" ScaleY="0.6"/>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="bodyDownBtn" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="400" Canvas.Top="155" Style="{StaticResource UpDownButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}" Tapped="mvBody_Tapped" RightTapped="mvBody_RightTapped">
+                    <Button x:Name="bodyDownBtn" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="400" Canvas.Top="155" Style="{StaticResource UpDownButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}">
                         <Button.RenderTransform>
                             <CompositeTransform ScaleY="-0.6" ScaleX="0.6"/>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="bodyMR1Btn" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="343.5" Canvas.Top="135.5" Style="{StaticResource RotateButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}" Tapped="mvBody_Tapped" RightTapped="mvBody_RightTapped" UseLayoutRounding="False" d:LayoutRounding="Auto">
+                    <Button x:Name="bodyMR1Btn" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="343.5" Canvas.Top="135.5" Style="{StaticResource RotateButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}">
                         <Button.RenderTransform>
                             <CompositeTransform ScaleY="-0.5" ScaleX="0.5" Rotation="-45.75"/>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="bodyMR2Btn" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="515" Canvas.Top="135.5" Style="{StaticResource RotateButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}" Tapped="mvBody_Tapped" RightTapped="mvBody_RightTapped" UseLayoutRounding="False" d:LayoutRounding="Auto">
+                    <Button x:Name="bodyMR2Btn" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="515" Canvas.Top="135.5" Style="{StaticResource RotateButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}">
                         <Button.RenderTransform>
                             <CompositeTransform Rotation="45.75" ScaleY="-0.5" ScaleX="-0.5"/>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="bodyMR3Btn" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="343.5" Canvas.Top="-61" Style="{StaticResource RotateButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}" Tapped="mvBody_Tapped" RightTapped="mvBody_RightTapped" UseLayoutRounding="False" d:LayoutRounding="Auto">
+                    <Button x:Name="bodyMR3Btn" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="343.5" Canvas.Top="-61" Style="{StaticResource RotateButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}">
                         <Button.RenderTransform>
                             <CompositeTransform Rotation="45.75" ScaleY="0.5" ScaleX="0.5"/>
                         </Button.RenderTransform>
                     </Button>
-                    <Button x:Name="bodyMR4Btn" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="515" Canvas.Top="-61" Style="{StaticResource RotateButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}" Tapped="mvBody_Tapped" RightTapped="mvBody_RightTapped" UseLayoutRounding="False" d:LayoutRounding="Auto">
+                    <Button x:Name="bodyMR4Btn" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="515" Canvas.Top="-61" Style="{StaticResource RotateButtonStyle}" RenderTransformOrigin="0.5,0.5" Background="{StaticResource BtnNormalColorBrush}">
                         <Button.RenderTransform>
                             <CompositeTransform Rotation="-45.75" ScaleY="0.5" ScaleX="-0.5"/>
                         </Button.RenderTransform>
