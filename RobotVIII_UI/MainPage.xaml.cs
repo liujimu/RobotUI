@@ -311,7 +311,22 @@ namespace RobotVIII_UI
                     basicCmd = "cmb";
                     break;
                 case "StopCMB":
-                    basicCmd = "cmj -c=0";
+                    basicCmd = "cmj -s=1";
+                    break;
+                case "PushStart":
+                    basicCmd = "cmfb -i=0";
+                    break;
+                case "PullStart":
+                    basicCmd = "cmfb -i=1";
+                    break;
+                case "ForwardCMF":
+                    basicCmd = "cmfj -w=-1";
+                    break;
+                case "ConfirmCMF":
+                    basicCmd = "cmfj -c=1";
+                    break;
+                case "StopCMF":
+                    basicCmd = "cmfj -s=1";
                     break;
                 default:
                     basicCmd = "";
@@ -333,7 +348,7 @@ namespace RobotVIII_UI
             wkDistance = rb.Content.ToString();
         }
 
-        /*将控件行为解析为move2命令*/
+        /*移动身体的cmfj命令*/
 
         private void mvBody_Holding(object sender, HoldingRoutedEventArgs e)
         {
@@ -363,7 +378,7 @@ namespace RobotVIII_UI
                         break;
                 }
             }
-            string cmd = "cmj" + direction;
+            string cmd = "cmfj" + direction;
             byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
             SendMsg(sendBytes);
         }
