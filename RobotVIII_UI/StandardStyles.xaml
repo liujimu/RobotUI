@@ -21,7 +21,11 @@
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Disabled"/>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="0.1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="path" d:IsOptimized="True"/>
+                                    </Storyboard>
+                                </VisualState>
                                 <VisualState x:Name="PointerOver"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
@@ -100,7 +104,11 @@
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Disabled"/>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="0.1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="path" d:IsOptimized="True"/>
+                                    </Storyboard>
+                                </VisualState>
                                 <VisualState x:Name="PointerOver"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>

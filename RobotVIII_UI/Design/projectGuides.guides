@@ -5,12 +5,20 @@
       <GuideModels>
         <GuideModel>
           <Guides>
-            <Guide Alignment="Left" Position="600" />
-            <Guide Alignment="Top" Position="659" />
-            <Guide Alignment="Left" Position="620" />
-            <Guide Alignment="Left" Position="580" />
-            <Guide Alignment="Top" Position="706" />
-            <Guide Alignment="Top" Position="612" />
+            <Guide Alignment="Left" Position="400" />
+            <Guide Alignment="Top" Position="660" />
+            <Guide Alignment="Left" Position="410" />
+            <Guide Alignment="Left" Position="420" />
+            <Guide Alignment="Top" Position="650" />
+            <Guide Alignment="Top" Position="670" />
+            <Guide Alignment="Left" Position="640" />
+            <Guide Alignment="Left" Position="1160" />
+            <Guide Alignment="Left" Position="1165" />
+            <Guide Alignment="Left" Position="1155" />
+            <Guide Alignment="Top" Position="636" />
+            <Guide Alignment="Top" Position="626" />
+            <Guide Alignment="Top" Position="684" />
+            <Guide Alignment="Top" Position="694" />
           </Guides>
         </GuideModel>
       </GuideModels>

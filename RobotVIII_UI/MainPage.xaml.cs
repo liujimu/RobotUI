@@ -307,27 +307,6 @@ namespace RobotVIII_UI
                 case "ResetOrigin":
                     basicCmd = "ro";
                     break;
-                case "StartCMB":
-                    basicCmd = "cmb";
-                    break;
-                case "StopCMB":
-                    basicCmd = "cmj -s=1";
-                    break;
-                case "PushStart":
-                    basicCmd = "cmfb -i=0";
-                    break;
-                case "PullStart":
-                    basicCmd = "cmfb -i=1";
-                    break;
-                case "ForwardCMF":
-                    basicCmd = "cmfj -w=-1";
-                    break;
-                case "ConfirmCMF":
-                    basicCmd = "cmfj -c=1";
-                    break;
-                case "StopCMF":
-                    basicCmd = "cmfj -s=1";
-                    break;
                 default:
                     basicCmd = "";
                     break;
@@ -349,6 +328,122 @@ namespace RobotVIII_UI
         }
 
         /*移动身体的cmfj命令*/
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+            Start.IsEnabled = false;
+            Pull.IsEnabled = true;
+            Push.IsEnabled = true;
+            Stop.IsEnabled = true;
+
+            bodyForwardBtn.IsEnabled = true;
+            bodyBackwardBtn.IsEnabled = true;
+            bodyLeftBtn.IsEnabled = true;
+            bodyRightBtn.IsEnabled = true;
+            bodyDownBtn.IsEnabled = true;
+            bodyUpBtn.IsEnabled = true;
+
+            string cmd = "cmfb";
+            byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
+            SendMsg(sendBytes);
+
+            PauseContinue.Click += Pause_Click;
+        }
+
+        private void Pull_Click(object sender, RoutedEventArgs e)
+        {
+            PauseContinue.IsEnabled = true;
+            Pull.IsEnabled = false;
+            Push.IsEnabled = false;
+
+            bodyForwardBtn.IsEnabled = false;
+            bodyBackwardBtn.IsEnabled = false;
+            bodyLeftBtn.IsEnabled = false;
+            bodyRightBtn.IsEnabled = false;
+            bodyDownBtn.IsEnabled = false;
+            bodyUpBtn.IsEnabled = false;
+
+            string cmd = "cmfj -p=1 -w=-1";
+            byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
+            SendMsg(sendBytes);
+        }
+
+        private void Push_Click(object sender, RoutedEventArgs e)
+        {
+            PauseContinue.IsEnabled = true;
+            Pull.IsEnabled = false;
+            Push.IsEnabled = false;
+
+            bodyForwardBtn.IsEnabled = false;
+            bodyBackwardBtn.IsEnabled = false;
+            bodyLeftBtn.IsEnabled = false;
+            bodyRightBtn.IsEnabled = false;
+            bodyDownBtn.IsEnabled = false;
+            bodyUpBtn.IsEnabled = false;
+
+            string cmd = "cmfj -p=0 -w=-1";
+            byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
+            SendMsg(sendBytes);
+        }
+
+        private void Pause_Click(object sender, RoutedEventArgs e)
+        {
+            bodyForwardBtn.IsEnabled = true;
+            bodyBackwardBtn.IsEnabled = true;
+            bodyLeftBtn.IsEnabled = true;
+            bodyRightBtn.IsEnabled = true;
+            bodyDownBtn.IsEnabled = true;
+            bodyUpBtn.IsEnabled = true;
+
+            PauseContinue.Content = "Continue";
+            string cmd = "cmfj -c=0";
+            byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
+            SendMsg(sendBytes);
+
+            PauseContinue.Click -= Pause_Click;
+            PauseContinue.Click += Continue_Click;
+        }
+
+        private void Continue_Click(object sender, RoutedEventArgs e)
+        {
+            bodyForwardBtn.IsEnabled = false;
+            bodyBackwardBtn.IsEnabled = false;
+            bodyLeftBtn.IsEnabled = false;
+            bodyRightBtn.IsEnabled = false;
+            bodyDownBtn.IsEnabled = false;
+            bodyUpBtn.IsEnabled = false;
+
+            PauseContinue.Content = "Pause";
+            string cmd = "cmfj -c=1";
+            byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
+            SendMsg(sendBytes);
+
+            PauseContinue.Click -= Continue_Click;
+            PauseContinue.Click += Pause_Click;
+        }
+
+        private void Stop_Click(object sender, RoutedEventArgs e)
+        {
+            Start.IsEnabled = true;
+            Pull.IsEnabled = false;
+            Push.IsEnabled = false;
+            PauseContinue.IsEnabled = false;
+            Stop.IsEnabled = false;
+
+            bodyForwardBtn.IsEnabled = false;
+            bodyBackwardBtn.IsEnabled = false;
+            bodyLeftBtn.IsEnabled = false;
+            bodyRightBtn.IsEnabled = false;
+            bodyDownBtn.IsEnabled = false;
+            bodyUpBtn.IsEnabled = false;
+
+            string cmd = "cmfj -s=1";
+            byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
+            SendMsg(sendBytes);
+
+            PauseContinue.Content = "Pause";
+            PauseContinue.Click -= Pause_Click;
+            PauseContinue.Click -= Continue_Click;
+        }
 
         private void mvBody_Holding(object sender, HoldingRoutedEventArgs e)
         {
@@ -543,21 +638,26 @@ namespace RobotVIII_UI
             //Move Body
             if (combo.SelectedIndex == 0)
             {
-                //Set bodyMR button visibility
-                bodyMR1Btn.Visibility = Visibility.Visible;
-                bodyMR2Btn.Visibility = Visibility.Visible;
-                bodyMR3Btn.Visibility = Visibility.Visible;
-                bodyMR4Btn.Visibility = Visibility.Visible;
+                //Set mvbody button states
+                bodyForwardBtn.IsEnabled = false;
+                bodyBackwardBtn.IsEnabled = false;
+                bodyLeftBtn.IsEnabled = false;
+                bodyRightBtn.IsEnabled = false;
+                bodyDownBtn.IsEnabled = false;
+                bodyUpBtn.IsEnabled = false;
+
+                //Set cmfj button visibility
+                Start.Visibility = Visibility.Visible;
+                Pull.Visibility = Visibility.Visible;
+                Push.Visibility = Visibility.Visible;
+                PauseContinue.Visibility = Visibility.Visible;
+                Stop.Visibility = Visibility.Visible;
 
                 //Set Button EventHandler
-                bodyMR1Btn.Tapped += mvBody_Tapped;
-                bodyMR1Btn.RightTapped += mvBody_RightTapped;
-                bodyMR2Btn.Tapped += mvBody_Tapped;
-                bodyMR2Btn.RightTapped += mvBody_RightTapped;
-                bodyMR3Btn.Tapped += mvBody_Tapped;
-                bodyMR3Btn.RightTapped += mvBody_RightTapped;
-                bodyMR4Btn.Tapped += mvBody_Tapped;
-                bodyMR4Btn.RightTapped += mvBody_RightTapped;
+                Start.Click += Start_Click;
+                Pull.Click += Pull_Click;
+                Push.Click += Push_Click;
+                Stop.Click += Stop_Click;
 
                 bodyForwardBtn.Holding += mvBody_Holding;
                 bodyBackwardBtn.Holding += mvBody_Holding;
@@ -582,21 +682,26 @@ namespace RobotVIII_UI
             //Move Single Leg
             else
             {
-                //Set bodyMR button visibility
-                bodyMR1Btn.Visibility = Visibility.Collapsed;
-                bodyMR2Btn.Visibility = Visibility.Collapsed;
-                bodyMR3Btn.Visibility = Visibility.Collapsed;
-                bodyMR4Btn.Visibility = Visibility.Collapsed;
+                //Set mvbody button states
+                bodyForwardBtn.IsEnabled = true;
+                bodyBackwardBtn.IsEnabled = true;
+                bodyLeftBtn.IsEnabled = true;
+                bodyRightBtn.IsEnabled = true;
+                bodyDownBtn.IsEnabled = true;
+                bodyUpBtn.IsEnabled = true;
+
+                //Set cmfj button visibility
+                Start.Visibility = Visibility.Collapsed;
+                Pull.Visibility = Visibility.Collapsed;
+                Push.Visibility = Visibility.Collapsed;
+                PauseContinue.Visibility = Visibility.Collapsed;
+                Stop.Visibility = Visibility.Collapsed;
 
                 //Set Button EventHandler
-                bodyMR1Btn.Tapped -= mvBody_Tapped;
-                bodyMR1Btn.RightTapped -= mvBody_RightTapped;
-                bodyMR2Btn.Tapped -= mvBody_Tapped;
-                bodyMR2Btn.RightTapped -= mvBody_RightTapped;
-                bodyMR3Btn.Tapped -= mvBody_Tapped;
-                bodyMR3Btn.RightTapped -= mvBody_RightTapped;
-                bodyMR4Btn.Tapped -= mvBody_Tapped;
-                bodyMR4Btn.RightTapped -= mvBody_RightTapped;
+                Start.Click -= Start_Click;
+                Pull.Click -= Pull_Click;
+                Push.Click -= Push_Click;
+                Stop.Click -= Stop_Click;
 
                 bodyForwardBtn.Holding -= mvBody_Holding;
                 bodyBackwardBtn.Holding -= mvBody_Holding;
