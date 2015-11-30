@@ -362,7 +362,7 @@ namespace RobotVIII_UI
             bodyDownBtn.IsEnabled = false;
             bodyUpBtn.IsEnabled = false;
 
-            string cmd = "cmfj -p=1 -w=-1";
+            string cmd = "cmfj -i=1 -w=-1 -c=1";
             byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
             SendMsg(sendBytes);
         }
@@ -380,7 +380,7 @@ namespace RobotVIII_UI
             bodyDownBtn.IsEnabled = false;
             bodyUpBtn.IsEnabled = false;
 
-            string cmd = "cmfj -p=0 -w=-1";
+            string cmd = "cmfj -i=0 -w=-1 -c=1";
             byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
             SendMsg(sendBytes);
         }
