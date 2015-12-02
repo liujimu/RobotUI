@@ -24,6 +24,7 @@ namespace RobotUI_with_3DMouse
     {
         //timer
         System.Windows.Threading.DispatcherTimer timer;
+        const int CLOCK_CYCLE = 200;
         int counter;
 
         //used for socket
@@ -82,7 +83,7 @@ namespace RobotUI_with_3DMouse
         {
             InitializeComponent();
             timer = new System.Windows.Threading.DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 200);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, CLOCK_CYCLE);
             timer.Tick += Timer_Tick;
 
             counter = 0;
@@ -261,68 +262,66 @@ namespace RobotUI_with_3DMouse
         {
             this.counter++;
             GetForceData(mvType);
+            string mouseControlCmd="";
             switch(mvType)
             {
                 case "BT":
-                    bodyTrans();
+                    mouseControlCmd = bodyTrans();
                     break;
                 case "BR":
-                    bodyRotate();
+                    mouseControlCmd = bodyRotate();
                     break;
                 case "WT":
-                    walkTrans();
+                    mouseControlCmd = walkTrans();
                     break;
                 case "WR":
-                    walkRotate();
+                    mouseControlCmd = walkRotate();
+                    break;
+                default:
                     break;
             }
+            if(mouseControlCmd!="")
+            {
+                byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mouseControlCmd);
+                SendMsg(sendCmd);
+            }
+
             previousMoveDir = currentMoveDir;
         }
 
-        private void bodyTrans()
+        private string bodyTrans()
         {
-            if(isStopped)
+            string mvBodyCmd = "";
+            if (isStopped)
             {
                 if(currentMoveDir==MOVE_DIRECTION.FORWARD)
                 {
-                    string mvBodyCmd = "cmj -w=-1";
-                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
-                    SendMsg(sendCmd);
+                    mvBodyCmd = "cmj -w=-1";
                     isStopped = false;
                 }
                 else if(currentMoveDir==MOVE_DIRECTION.BACKWARD)
                 {
-                    string mvBodyCmd = "cmj -w=1";
-                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
-                    SendMsg(sendCmd);
+                    mvBodyCmd = "cmj -w=1";
                     isStopped = false;
                 }
                 else if (currentMoveDir == MOVE_DIRECTION.LEFT)
                 {
-                    string mvBodyCmd = "cmj -u=-1";
-                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
-                    SendMsg(sendCmd);
+                    mvBodyCmd = "cmj -u=-1";
                     isStopped = false;
                 }
                 else if (currentMoveDir == MOVE_DIRECTION.RIGHT)
                 {
-                    string mvBodyCmd = "cmj -u=1";
-                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
-                    SendMsg(sendCmd);
+                    mvBodyCmd = "cmj -u=1";
                     isStopped = false;
                 }
                 else if (currentMoveDir == MOVE_DIRECTION.UPWARD)
                 {
-                    string mvBodyCmd = "cmj -v=1";
-                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
-                    SendMsg(sendCmd);
+                    mvBodyCmd = "cmj -v=1";
                     isStopped = false;
                 }
                 else if (currentMoveDir == MOVE_DIRECTION.DOWNWARD)
                 {
-                    string mvBodyCmd = "cmj -v=-1";
-                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
-                    SendMsg(sendCmd);
+                    mvBodyCmd = "cmj -v=-1";
                     isStopped = false;
                 }
             }
@@ -330,52 +329,100 @@ namespace RobotUI_with_3DMouse
             {
                 if(currentMoveDir!=previousMoveDir)
                 {
-                    string mvBodyCmd = "cmj";
-                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
-                    SendMsg(sendCmd);
+                    mvBodyCmd = "cmj";
                     isStopped = true;
                 }
             }
+            return mvBodyCmd;
         }
 
-        private void bodyRotate()
+        private string bodyRotate()
         {
-            throw new NotImplementedException();
-        }
-
-        private void walkTrans()
-        {
-            if(isStopped)
+            string mvBodyCmd = "";
+            if (isStopped)
             {
-                if (currentMoveDir == MOVE_DIRECTION.FORWARD)
+                if (currentMoveDir == MOVE_DIRECTION.TURN_LEFT)
                 {
-                    string mvBodyCmd = "cmj -w=-1";
-                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
-                    SendMsg(sendCmd);
+                    mvBodyCmd = "cmj -y=1";
                     isStopped = false;
-                    counter = 0;
                 }
-
+                else if (currentMoveDir == MOVE_DIRECTION.TURN_RIGHT)
+                {
+                    mvBodyCmd = "cmj -y=-1";
+                    isStopped = false;
+                }
             }
             else
             {
-                if(counter%(WALK_COUNT/20)==0)
+                if (currentMoveDir != previousMoveDir)
                 {
-                    if (currentMoveDir != previousMoveDir)
-                    {
-                        string mvBodyCmd = "cmj";
-                        byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
-                        SendMsg(sendCmd);
-                        isStopped = true;
-                    }
+                    mvBodyCmd = "cmj";
+                    isStopped = true;
                 }
-
             }
+            return mvBodyCmd;
         }
 
-        private void walkRotate()
+        private string walkTrans()
         {
-            throw new NotImplementedException();
+            string walkCmd = "";
+            if (isStopped)
+            {
+                if (currentMoveDir == MOVE_DIRECTION.FORWARD)
+                {
+                    walkCmd = "wk -d=0.3 -c=" + WALK_COUNT.ToString();
+                    isStopped = false;
+                    counter = 0;
+                }
+                else if (currentMoveDir == MOVE_DIRECTION.BACKWARD)
+                {
+                    walkCmd = "wk -d=-0.3 -c=" + WALK_COUNT.ToString();
+                    isStopped = false;
+                    counter = 0;
+                }
+                else if (currentMoveDir == MOVE_DIRECTION.LEFT)
+                {
+                    walkCmd = "wk -d=0.3 -a=1.57 -c=" + WALK_COUNT.ToString();
+                    isStopped = false;
+                    counter = 0;
+                }
+                else if (currentMoveDir == MOVE_DIRECTION.RIGHT)
+                {
+                    walkCmd = "wk -d=0.3 -a=-1.57 -c=" + WALK_COUNT.ToString();
+                    isStopped = false;
+                    counter = 0;
+                }
+            }
+            if ((counter + 1) % (2 * WALK_COUNT / CLOCK_CYCLE) == 0)
+            {
+                isStopped = true;
+            }
+            return walkCmd;
+        }
+
+        private string walkRotate()
+        {
+            string walkCmd = "";
+            if (isStopped)
+            {
+                if (currentMoveDir == MOVE_DIRECTION.TURN_LEFT)
+                {
+                    walkCmd = "wk -d=0 -b=0.2618 -c=" + WALK_COUNT.ToString();
+                    isStopped = false;
+                    counter = 0;
+                }
+                else if (currentMoveDir == MOVE_DIRECTION.TURN_RIGHT)
+                {
+                    walkCmd = "wk -d=-0 -b=-0.2618 -c=" + WALK_COUNT.ToString();
+                    isStopped = false;
+                    counter = 0;
+                }
+            }
+            if ((counter + 1) % (2 * WALK_COUNT / CLOCK_CYCLE) == 0)
+            {
+                isStopped = true;
+            }
+            return walkCmd;
         }
 
         private void GetForceData(string sendMsg)
@@ -389,13 +436,25 @@ namespace RobotUI_with_3DMouse
             //读数据长度
             if(sensorStream.CanRead)
             {
-                byte[] readBuffer = new byte[32];
+                byte[] readBuffer = new byte[36];
                 sensorStream.Read(readBuffer, 0, readBuffer.Length);
                 int dataLength = System.BitConverter.ToInt32(readBuffer, 0);
-                if(dataLength!=28)
+                if (dataLength != 28)
                 {
                     return;
                 }
+                int dataTail = System.BitConverter.ToInt32(readBuffer, 32);
+                int checkSum = 0;
+                for (int i = 4; i < 32; i++)
+                {
+                    checkSum += readBuffer[i];
+                }
+                //StatusText.Text = checkSum.ToString() + " " + dataTail.ToString();
+                if (checkSum != dataTail)
+                {
+                    return;
+                }
+
                 int mvDirection = System.BitConverter.ToInt32(readBuffer, 4);
                 forceData.Xp= System.BitConverter.ToSingle(readBuffer, 8);
                 forceData.Yp = System.BitConverter.ToSingle(readBuffer, 12);
