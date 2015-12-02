@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:RobotUI_with_3DMouse" xmlns:System="clr-namespace:System;assembly=mscorlib">
+
+    <SolidColorBrush x:Key="CustomGreenColorBrush" Color="#FF00A300"/>
+    <SolidColorBrush x:Key="CustomRedColorBrush" Color="#FF940000"/>
+    <System:Double x:Key="NormalFontSize">20</System:Double>
+    <Thickness x:Key="NormalMarginThickness">10</Thickness>
+</ResourceDictionary>
