@@ -54,6 +54,7 @@
             <RadioButton Content="WT" GroupName="moveType" Checked="moveType_Checked" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}" Margin="{DynamicResource NormalMarginThickness}"/>
             <RadioButton Content="WR" GroupName="moveType" Checked="moveType_Checked" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}" Margin="{DynamicResource NormalMarginThickness}"/>
             <Button x:Name="mouseControlBtn" Content="Start 6-DOFs-Mouse Control" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}" Margin="{DynamicResource NormalMarginThickness}"/>
+            <Button x:Name="setZeroBtn" Content="Set Zero" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}" Margin="{DynamicResource NormalMarginThickness}" Click="setZeroBtn_Click"/>
         </StackPanel>
         <Grid Grid.Row="4">
             <Grid.RowDefinitions>

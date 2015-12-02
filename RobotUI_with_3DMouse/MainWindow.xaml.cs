@@ -40,8 +40,8 @@ namespace RobotUI_with_3DMouse
 
         //used for controlling robot
         bool isMouseEnabled = false;
-        const int WALK_COUNT = 2000;
-        bool isWalking = false;
+        bool isStopped = true;
+        const int WALK_COUNT = 3000;
         int walkingSteps = 0;
 
         enum MOVE_DIRECTION
@@ -61,7 +61,9 @@ namespace RobotUI_with_3DMouse
             UPWARD,
             DOWNWARD
         };
-        MOVE_DIRECTION eMoveDirection = MOVE_DIRECTION.STOP;
+        MOVE_DIRECTION currentMoveDir = MOVE_DIRECTION.STOP;
+        MOVE_DIRECTION previousMoveDir = MOVE_DIRECTION.STOP;
+
         struct FORCE_DATA
         {
             public float Xp;
@@ -72,6 +74,7 @@ namespace RobotUI_with_3DMouse
             public float Gama;
         }
         FORCE_DATA forceData = new FORCE_DATA();
+
         string mvType;
         
 
@@ -79,7 +82,7 @@ namespace RobotUI_with_3DMouse
         {
             InitializeComponent();
             timer = new System.Windows.Threading.DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 200);
             timer.Tick += Timer_Tick;
 
             counter = 0;
@@ -254,14 +257,128 @@ namespace RobotUI_with_3DMouse
             SendMsg(sendBytes);
         }
 
-        private async void Timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             this.counter++;
-            await GetForceData(mvType);
-            
+            GetForceData(mvType);
+            switch(mvType)
+            {
+                case "BT":
+                    bodyTrans();
+                    break;
+                case "BR":
+                    bodyRotate();
+                    break;
+                case "WT":
+                    walkTrans();
+                    break;
+                case "WR":
+                    walkRotate();
+                    break;
+            }
+            previousMoveDir = currentMoveDir;
         }
 
-        private async Task GetForceData(string sendMsg)
+        private void bodyTrans()
+        {
+            if(isStopped)
+            {
+                if(currentMoveDir==MOVE_DIRECTION.FORWARD)
+                {
+                    string mvBodyCmd = "cmj -w=-1";
+                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
+                    SendMsg(sendCmd);
+                    isStopped = false;
+                }
+                else if(currentMoveDir==MOVE_DIRECTION.BACKWARD)
+                {
+                    string mvBodyCmd = "cmj -w=1";
+                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
+                    SendMsg(sendCmd);
+                    isStopped = false;
+                }
+                else if (currentMoveDir == MOVE_DIRECTION.LEFT)
+                {
+                    string mvBodyCmd = "cmj -u=-1";
+                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
+                    SendMsg(sendCmd);
+                    isStopped = false;
+                }
+                else if (currentMoveDir == MOVE_DIRECTION.RIGHT)
+                {
+                    string mvBodyCmd = "cmj -u=1";
+                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
+                    SendMsg(sendCmd);
+                    isStopped = false;
+                }
+                else if (currentMoveDir == MOVE_DIRECTION.UPWARD)
+                {
+                    string mvBodyCmd = "cmj -v=1";
+                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
+                    SendMsg(sendCmd);
+                    isStopped = false;
+                }
+                else if (currentMoveDir == MOVE_DIRECTION.DOWNWARD)
+                {
+                    string mvBodyCmd = "cmj -v=-1";
+                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
+                    SendMsg(sendCmd);
+                    isStopped = false;
+                }
+            }
+            else
+            {
+                if(currentMoveDir!=previousMoveDir)
+                {
+                    string mvBodyCmd = "cmj";
+                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
+                    SendMsg(sendCmd);
+                    isStopped = true;
+                }
+            }
+        }
+
+        private void bodyRotate()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void walkTrans()
+        {
+            if(isStopped)
+            {
+                if (currentMoveDir == MOVE_DIRECTION.FORWARD)
+                {
+                    string mvBodyCmd = "cmj -w=-1";
+                    byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
+                    SendMsg(sendCmd);
+                    isStopped = false;
+                    counter = 0;
+                }
+
+            }
+            else
+            {
+                if(counter%(WALK_COUNT/20)==0)
+                {
+                    if (currentMoveDir != previousMoveDir)
+                    {
+                        string mvBodyCmd = "cmj";
+                        byte[] sendCmd = System.Text.UnicodeEncoding.UTF8.GetBytes(mvBodyCmd);
+                        SendMsg(sendCmd);
+                        isStopped = true;
+                    }
+                }
+
+            }
+        }
+
+        private void walkRotate()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void GetForceData(string sendMsg)
         {
             //发数据
             byte[] sendData = System.Text.UnicodeEncoding.UTF8.GetBytes(sendMsg);
@@ -269,23 +386,26 @@ namespace RobotUI_with_3DMouse
             Array.Copy(sendData, 0, writeBuffer, 0, sendData.Length);
             sensorStream.Write(writeBuffer, 0, writeBuffer.Length);
 
-            byte[] readBuffer;
             //读数据长度
-            readBuffer = new byte[4];
-            await sensorStream.ReadAsync(readBuffer,0,readBuffer.Length);
-            int dataLength = System.BitConverter.ToInt32(readBuffer, 0);
-            //读数据内容
-            readBuffer = new byte[dataLength];
-            await sensorStream.ReadAsync(readBuffer, 0, readBuffer.Length);
-            int mvDirection = System.BitConverter.ToInt32(readBuffer, 0);
-            eMoveDirection = (MOVE_DIRECTION)mvDirection;
+            if(sensorStream.CanRead)
+            {
+                byte[] readBuffer = new byte[32];
+                sensorStream.Read(readBuffer, 0, readBuffer.Length);
+                int dataLength = System.BitConverter.ToInt32(readBuffer, 0);
+                if(dataLength!=28)
+                {
+                    return;
+                }
+                int mvDirection = System.BitConverter.ToInt32(readBuffer, 4);
+                forceData.Xp= System.BitConverter.ToSingle(readBuffer, 8);
+                forceData.Yp = System.BitConverter.ToSingle(readBuffer, 12);
+                forceData.Zp = System.BitConverter.ToSingle(readBuffer, 16);
+                forceData.Arfa = System.BitConverter.ToSingle(readBuffer, 20);
+                forceData.Beita = System.BitConverter.ToSingle(readBuffer, 24);
+                forceData.Gama = System.BitConverter.ToSingle(readBuffer, 28);
+                currentMoveDir = (MOVE_DIRECTION)mvDirection;
+            }
 
-            forceData.Xp= System.BitConverter.ToSingle(readBuffer, 4);
-            forceData.Yp = System.BitConverter.ToSingle(readBuffer, 8);
-            forceData.Zp = System.BitConverter.ToSingle(readBuffer, 12);
-            forceData.Arfa = System.BitConverter.ToSingle(readBuffer, 16);
-            forceData.Beita = System.BitConverter.ToSingle(readBuffer, 20);
-            forceData.Gama = System.BitConverter.ToSingle(readBuffer, 24);
             FxLabel.Content = forceData.Xp.ToString();
             FyLabel.Content = forceData.Yp.ToString();
             FzLabel.Content = forceData.Zp.ToString();
@@ -293,7 +413,7 @@ namespace RobotUI_with_3DMouse
             MyLabel.Content = forceData.Beita.ToString();
             MzLabel.Content = forceData.Gama.ToString();
 
-            StatusText.Text = eMoveDirection.ToString();
+            StatusText.Text = currentMoveDir.ToString();
         }
 
         private void MouseControlBtn_Click(object sender, RoutedEventArgs e)
@@ -309,6 +429,14 @@ namespace RobotUI_with_3DMouse
                 mouseControlBtn.Content = "Start 6-DOFs-Mouse Control";
             }
             isMouseEnabled = !isMouseEnabled;
+        }
+
+        private void setZeroBtn_Click(object sender, RoutedEventArgs e)
+        {
+            byte[] sendData = System.Text.UnicodeEncoding.UTF8.GetBytes("SZ");
+            byte[] writeBuffer = new byte[sendData.Length + 1];
+            Array.Copy(sendData, 0, writeBuffer, 0, sendData.Length);
+            sensorStream.Write(writeBuffer, 0, writeBuffer.Length);
         }
     }
 }
