@@ -85,8 +85,13 @@ namespace RobotUI_with_3DMouse
             timer = new System.Windows.Threading.DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 0, 0, CLOCK_CYCLE);
             timer.Tick += Timer_Tick;
-
             counter = 0;
+
+            //Set Button EventHandler
+            Start.Click += Start_Click;
+            Pull.Click += Pull_Click;
+            Push.Click += Push_Click;
+            Stop.Click += Stop_Click;
 
             float pi = 3.1415926f;
             StatusText.Text = pi.ToString();
@@ -296,32 +301,32 @@ namespace RobotUI_with_3DMouse
             {
                 if(currentMoveDir==MOVE_DIRECTION.FORWARD)
                 {
-                    mvBodyCmd = "cmj -w=-1";
+                    mvBodyCmd = "cmfj -w=-1";
                     isStopped = false;
                 }
                 else if(currentMoveDir==MOVE_DIRECTION.BACKWARD)
                 {
-                    mvBodyCmd = "cmj -w=1";
+                    mvBodyCmd = "cmfj -w=1";
                     isStopped = false;
                 }
                 else if (currentMoveDir == MOVE_DIRECTION.LEFT)
                 {
-                    mvBodyCmd = "cmj -u=-1";
+                    mvBodyCmd = "cmfj -u=-1";
                     isStopped = false;
                 }
                 else if (currentMoveDir == MOVE_DIRECTION.RIGHT)
                 {
-                    mvBodyCmd = "cmj -u=1";
+                    mvBodyCmd = "cmfj -u=1";
                     isStopped = false;
                 }
                 else if (currentMoveDir == MOVE_DIRECTION.UPWARD)
                 {
-                    mvBodyCmd = "cmj -v=1";
+                    mvBodyCmd = "cmfj -v=1";
                     isStopped = false;
                 }
                 else if (currentMoveDir == MOVE_DIRECTION.DOWNWARD)
                 {
-                    mvBodyCmd = "cmj -v=-1";
+                    mvBodyCmd = "cmfj -v=-1";
                     isStopped = false;
                 }
             }
@@ -343,12 +348,12 @@ namespace RobotUI_with_3DMouse
             {
                 if (currentMoveDir == MOVE_DIRECTION.TURN_LEFT)
                 {
-                    mvBodyCmd = "cmj -y=1";
+                    mvBodyCmd = "cmfj -y=1";
                     isStopped = false;
                 }
                 else if (currentMoveDir == MOVE_DIRECTION.TURN_RIGHT)
                 {
-                    mvBodyCmd = "cmj -y=-1";
+                    mvBodyCmd = "cmfj -y=-1";
                     isStopped = false;
                 }
             }
@@ -356,7 +361,7 @@ namespace RobotUI_with_3DMouse
             {
                 if (currentMoveDir != previousMoveDir)
                 {
-                    mvBodyCmd = "cmj";
+                    mvBodyCmd = "cmfj";
                     isStopped = true;
                 }
             }
@@ -496,6 +501,82 @@ namespace RobotUI_with_3DMouse
             byte[] writeBuffer = new byte[sendData.Length + 1];
             Array.Copy(sendData, 0, writeBuffer, 0, sendData.Length);
             sensorStream.Write(writeBuffer, 0, writeBuffer.Length);
+        }
+
+        /*移动身体的cmfj命令*/
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+            Start.IsEnabled = false;
+            Pull.IsEnabled = true;
+            Push.IsEnabled = true;
+            Stop.IsEnabled = true;
+
+            string cmd = "cmfb";
+            byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
+            SendMsg(sendBytes);
+
+            PauseContinue.Click += Pause_Click;
+        }
+
+        private void Pull_Click(object sender, RoutedEventArgs e)
+        {
+            PauseContinue.IsEnabled = true;
+            Pull.IsEnabled = false;
+            Push.IsEnabled = false;
+
+            string cmd = "cmfj -i=1 -w=-1 -c=1";
+            byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
+            SendMsg(sendBytes);
+        }
+
+        private void Push_Click(object sender, RoutedEventArgs e)
+        {
+            PauseContinue.IsEnabled = true;
+            Pull.IsEnabled = false;
+            Push.IsEnabled = false;
+
+            string cmd = "cmfj -i=0 -w=-1 -c=1";
+            byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
+            SendMsg(sendBytes);
+        }
+
+        private void Pause_Click(object sender, RoutedEventArgs e)
+        {
+            PauseContinue.Content = "Continue";
+            string cmd = "cmfj -c=0";
+            byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
+            SendMsg(sendBytes);
+
+            PauseContinue.Click -= Pause_Click;
+            PauseContinue.Click += Continue_Click;
+        }
+
+        private void Continue_Click(object sender, RoutedEventArgs e)
+        {
+            PauseContinue.Content = "Pause";
+            string cmd = "cmfj -c=1";
+            byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
+            SendMsg(sendBytes);
+
+            PauseContinue.Click -= Continue_Click;
+            PauseContinue.Click += Pause_Click;
+        }
+
+        private void Stop_Click(object sender, RoutedEventArgs e)
+        {
+            Start.IsEnabled = true;
+            Pull.IsEnabled = false;
+            Push.IsEnabled = false;
+            PauseContinue.IsEnabled = false;
+            Stop.IsEnabled = false;
+
+            string cmd = "cmfj -s=1";
+            byte[] sendBytes = System.Text.UnicodeEncoding.UTF8.GetBytes(cmd);
+            SendMsg(sendBytes);
+
+            PauseContinue.Content = "Pause";
+            PauseContinue.Click -= Pause_Click;
+            PauseContinue.Click -= Continue_Click;
         }
     }
 }

@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RobotUI_with_3DMouse"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" Height="600" Width="1024">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
@@ -27,22 +27,36 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.5*"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="Enable" Content="Enable" Margin="10,5" Click="Common_Click" Background="{StaticResource CustomGreenColorBrush}" Width="150" VerticalAlignment="Stretch" FontSize="{DynamicResource NormalFontSize}"/>
-            <Button x:Name="Disable" Grid.Column="4" Content="Disable" Margin="10,5" Background="{StaticResource CustomRedColorBrush}" Click="Common_Click" HorizontalAlignment="Right" FontSize="{DynamicResource NormalFontSize}" Width="150" VerticalAlignment="Stretch"/>
-            <Button x:Name="GoHome1" Grid.Column="1" Content="GoHome1" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Button x:Name="GoHome2" Grid.Column="2" Content="GoHome2" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Button x:Name="Recover1" Grid.Column="1" Grid.Row="1" Content="Recover1" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Button x:Name="Recover2" Grid.Column="2" Grid.Row="1" Content="Recover2" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Button x:Name="ResetOrigin" Grid.Column="3" Content="ResetOrigin" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Button x:Name="FastWalk" Grid.Column="3" Grid.Row="1" Content="FastWalk" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Button x:Name="Enable" Grid.Column="0" Content="Enable" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource CustomRedColorBrush}"/>
+            <Button x:Name="Disable" Grid.Column="6" Content="Disable" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource CustomRedColorBrush}"/>
+            <Button x:Name="GoHome1" Grid.Column="2" Content="GoHome1" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Button x:Name="GoHome2" Grid.Column="3" Content="GoHome2" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Button x:Name="Recover1" Grid.Column="2" Grid.Row="1" Content="Recover1" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Button x:Name="Recover2" Grid.Column="3" Grid.Row="1" Content="Recover2" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Button x:Name="ResetOrigin" Grid.Column="4" Content="ResetOrigin" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Button x:Name="FastWalk" Grid.Column="4" Grid.Row="1" Content="FastWalk" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+            <Button x:Name="Start" Grid.Column="1" Grid.Row="2" Content="Start" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Button x:Name="Pull" Grid.Column="2" Grid.Row="2" Content="Pull" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False"/>
+            <Button x:Name="Push" Grid.Column="3" Grid.Row="2" Content="Push" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False"/>
+            <Button x:Name="PauseContinue" Grid.Column="4" Grid.Row="2" Content="Pause" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False"/>
+            <Button x:Name="Stop" Grid.Column="5" Grid.Row="2" Content="Stop" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False"/>
+
+            <Button x:Name="Pull1" Grid.Column="2" Grid.Row="3" Content="Pull1" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Button x:Name="Pull2" Grid.Column="3" Grid.Row="3" Content="Pull2" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Button x:Name="Pull3" Grid.Column="4" Grid.Row="3" Content="Pull3" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <TextBox x:Name="command" Text="en" Margin="{DynamicResource NormalMarginThickness}" TextWrapping="Wrap" Width="300" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}"/>
