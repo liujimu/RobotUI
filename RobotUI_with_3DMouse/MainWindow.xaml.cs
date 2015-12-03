@@ -375,25 +375,25 @@ namespace RobotUI_with_3DMouse
             {
                 if (currentMoveDir == MOVE_DIRECTION.FORWARD)
                 {
-                    walkCmd = "wk -d=0.3 -c=" + WALK_COUNT.ToString();
+                    walkCmd = "wk -d=0.3 -t=" + WALK_COUNT.ToString();
                     isStopped = false;
                     counter = 0;
                 }
                 else if (currentMoveDir == MOVE_DIRECTION.BACKWARD)
                 {
-                    walkCmd = "wk -d=-0.3 -c=" + WALK_COUNT.ToString();
+                    walkCmd = "wk -d=-0.3 -t=" + WALK_COUNT.ToString();
                     isStopped = false;
                     counter = 0;
                 }
                 else if (currentMoveDir == MOVE_DIRECTION.LEFT)
                 {
-                    walkCmd = "wk -d=0.3 -a=1.57 -c=" + WALK_COUNT.ToString();
+                    walkCmd = "wk -d=0.3 -a=1.57 -t=" + WALK_COUNT.ToString();
                     isStopped = false;
                     counter = 0;
                 }
                 else if (currentMoveDir == MOVE_DIRECTION.RIGHT)
                 {
-                    walkCmd = "wk -d=0.3 -a=-1.57 -c=" + WALK_COUNT.ToString();
+                    walkCmd = "wk -d=0.3 -a=-1.57 -t=" + WALK_COUNT.ToString();
                     isStopped = false;
                     counter = 0;
                 }
@@ -412,13 +412,13 @@ namespace RobotUI_with_3DMouse
             {
                 if (currentMoveDir == MOVE_DIRECTION.TURN_LEFT)
                 {
-                    walkCmd = "wk -d=0 -b=0.2618 -c=" + WALK_COUNT.ToString();
+                    walkCmd = "wk -d=0 -b=0.2618 -t=" + WALK_COUNT.ToString();
                     isStopped = false;
                     counter = 0;
                 }
                 else if (currentMoveDir == MOVE_DIRECTION.TURN_RIGHT)
                 {
-                    walkCmd = "wk -d=-0 -b=-0.2618 -c=" + WALK_COUNT.ToString();
+                    walkCmd = "wk -d=-0 -b=-0.2618 -t=" + WALK_COUNT.ToString();
                     isStopped = false;
                     counter = 0;
                 }
@@ -577,6 +577,33 @@ namespace RobotUI_with_3DMouse
             PauseContinue.Content = "Pause";
             PauseContinue.Click -= Pause_Click;
             PauseContinue.Click -= Continue_Click;
+        }
+
+        private void wk_Click(object sender, RoutedEventArgs e)
+        {
+            wkUpdateCmd(sender as Button, "Tapped");
+        }
+
+        private void wkUpdateCmd(Button btn, String gesture)
+        {
+            string wkCmd;
+            string btnName = btn.Name.ToString();
+            switch (btnName)
+            {
+                case "Pull1":
+                    wkCmd = "wk -d=0.26105 -a=3.0107";
+                    break;
+                case "Pull2":
+                    wkCmd = "wk -d=0.26105 -a=2.7489";
+                    break;
+                case "Pull3":
+                    wkCmd = "wk -d=0.26105 -a=2.4871";
+                    break;
+                default:
+                    wkCmd = "wk -d=0";
+                    break;
+            }
+            command.Text = wkCmd;
         }
     }
 }

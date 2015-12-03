@@ -17,9 +17,9 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <TextBlock Margin="{DynamicResource NormalMarginThickness}" Text="Server IP:" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}"/>
-            <TextBox x:Name="ServerIP" Text="127.0.0.1" Margin="{DynamicResource NormalMarginThickness}" TextWrapping="Wrap" Width="150" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}"/>
+            <TextBox x:Name="ServerIP" Text="192.168.1.100" Margin="{DynamicResource NormalMarginThickness}" TextWrapping="Wrap" Width="150" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}"/>
             <TextBlock Text=" Port:" Margin="{DynamicResource NormalMarginThickness}" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}"/>
-            <TextBox x:Name="ControlPort" Text="4518" Margin="{DynamicResource NormalMarginThickness}" TextWrapping="Wrap" Width="80" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}"/>
+            <TextBox x:Name="ControlPort" Text="5866" Margin="{DynamicResource NormalMarginThickness}" TextWrapping="Wrap" Width="80" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}"/>
             <Button Content="Connect" Margin="{DynamicResource NormalMarginThickness}" Click="Connect_Click" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}"/>
             <Button Content="Disconnect" Margin="{DynamicResource NormalMarginThickness}" Click="Disconnect_Click" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}"/>
         </StackPanel>
@@ -39,7 +39,7 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="Enable" Grid.Column="0" Content="Enable" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource CustomRedColorBrush}"/>
+            <Button x:Name="Enable" Grid.Column="0" Content="Enable" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{DynamicResource CustomGreenColorBrush}"/>
             <Button x:Name="Disable" Grid.Column="6" Content="Disable" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource CustomRedColorBrush}"/>
             <Button x:Name="GoHome1" Grid.Column="2" Content="GoHome1" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Button x:Name="GoHome2" Grid.Column="3" Content="GoHome2" Margin="10,5" FontSize="{DynamicResource NormalFontSize}" Click="Common_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -54,13 +54,19 @@
             <Button x:Name="PauseContinue" Grid.Column="4" Grid.Row="2" Content="Pause" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False"/>
             <Button x:Name="Stop" Grid.Column="5" Grid.Row="2" Content="Stop" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False"/>
 
-            <Button x:Name="Pull1" Grid.Column="2" Grid.Row="3" Content="Pull1" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Button x:Name="Pull2" Grid.Column="3" Grid.Row="3" Content="Pull2" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Button x:Name="Pull3" Grid.Column="4" Grid.Row="3" Content="Pull3" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Button x:Name="Pull1" Grid.Column="2" Grid.Row="3" Content="Pull1" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="wk_Click"/>
+            <Button x:Name="Pull2" Grid.Column="3" Grid.Row="3" Content="Pull2" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="wk_Click"/>
+            <Button x:Name="Pull3" Grid.Column="4" Grid.Row="3" Content="Pull3" Margin="10,5" FontSize="24" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="wk_Click"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="command" Text="en" Margin="{DynamicResource NormalMarginThickness}" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}"/>
+            <Button x:Name="sendCmdBtn" Grid.Column="1" Content="Send" Margin="{DynamicResource NormalMarginThickness}" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}"/>
         </Grid>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <TextBox x:Name="command" Text="en" Margin="{DynamicResource NormalMarginThickness}" TextWrapping="Wrap" Width="300" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}"/>
-            <Button x:Name="sendCmdBtn" Content="Send" Margin="{DynamicResource NormalMarginThickness}" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}"/>
         </StackPanel>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
             <RadioButton Content="BT" GroupName="moveType" Checked="moveType_Checked" IsChecked="True" VerticalAlignment="Center" FontSize="{DynamicResource NormalFontSize}" Margin="{DynamicResource NormalMarginThickness}"/>
